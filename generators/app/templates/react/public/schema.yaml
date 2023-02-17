@@ -1,0 +1,27 @@
+activity_top(页面配置): 
+  activity_title(活动标题): Input
+  prize_title(奖品页标题): Input
+  titleImage(页面标题): Image
+  backgroundImage(背景图): Image
+  backgroundColor(背景颜色): Color
+  acCode(活动id): Input
+  buryUrl(普通埋点上报域名): Input
+  starBuryUrl(星火埋点上报域名): Input
+sceneGroupCode(展位码):
+  banner_sceneCode(banner展位码): Input
+  banner_see_burySpm(banner曝光spm): Input
+  banner_click_burySpm(banner点击spm): Input
+activity_draw_btns(主活动按钮):
+  -
+    type(编号): Input
+    name(名称): Input
+    image(按钮图片): Image
+    link(按钮链接): Input
+activity_rule(活动规则):
+  title(活动规则标题): Image
+  backgroundColor(活动规则背景色): Color
+  content(活动规则标题): RichText
+service(客服配置):
+  serviceIcon(客服图片): Image
+  serviceTel(客服电话): Input
+  serviceTime(客服时间): Input

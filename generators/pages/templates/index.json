@@ -1,0 +1,10 @@
+{
+    "transparentTitle": "none",
+    "pullRefresh": true,
+    "usingComponents":{
+          "login-dialog": "/component/login-dialog/login-dialog",
+          "xinghuo-banner-common-module": "/component/xinghuo-banner-common-module/ad-banner-module",
+          "index-banner-module": "/component/index-banner-module-fuyao/index-banner-module",
+          "subscribe-msg": "plugin://subscribeMsg/subscribe-msg"
+      }
+}

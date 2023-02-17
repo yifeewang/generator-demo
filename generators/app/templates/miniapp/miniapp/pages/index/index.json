@@ -1,0 +1,18 @@
+{
+    "transparentTitle": "none",
+    "pullRefresh": true,
+    "usingComponents": {
+        <% if(model.includes('starFire')) { %>
+        "xh-banner": "plugin://xh-banner/xh-banner",
+        <% } %>
+        <% if(model.includes('revisitGift')) { %>
+        "visit-gift": "plugin://xh-banner/visit-gift",
+        <% } %>
+        <% if(model.includes('rechargePlugin')) { %>
+        "charge-module": "plugin://charge-module/charge-module",
+        <% } %>
+        <% if(model.includes('lightFire')) { %>
+        "feeds": "plugin://xlightPlugin/feeds"
+        <% } %>
+    }
+}

@@ -1,0 +1,18 @@
+<view onTap="cancelModalContainer" class="alertModel">
+
+    <view class="modal">
+        <view class="close" catchTap="cancelModal"></view>
+        <view class="title">
+            <view class="titleContent {{lineType}}">
+                <text>{{titleText}}</text>
+            </view>
+        </view>
+        <view class="btns">
+            <form onSubmit="confirmModal" report-submit="{{formIdStatus}}">
+                <button formType="submit"
+                    class="cancelBtn" hover-class="none">{{confirmText}}</button>
+                </form>
+            <view catchTap="cancelModal" a:if="{{cancelText}}" class="confirmBtn">取消</view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,150 @@
+@line-border-fill: rgba(247,65,88,1);
+@line-border-empty: rgba(245,245,245,1);
+@imgurl: 'https://ctopmweb-cdn.iyoudui.com/myx_draw/dxreq-359/';
+
+.box {
+    text-align: center;
+}
+
+.box-step-line {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+
+.box-step-line::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: .12rem;
+    background-color: @line-border-empty;
+    content: '';
+    transform: translateY(-50%);
+}
+
+.progress {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: .12rem;
+    transition: .4s ease;
+    background-color: @line-border-fill;
+    border-radius: .06rem;
+    transform: translateY(-50%);
+}
+
+.circle {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: .2rem;
+    height: .2rem;
+    margin-left: -5rpx;
+    font-size: .24rem;
+    background-color: #fff;
+    border: .02rem solid #c0c0c0;
+    border-radius: 50%;
+    transition: .4s ease;
+
+    .has-checkin {
+        position: relative;
+        width: .2rem;
+        height: .2rem;
+        background: #fff;
+        border: 2rpx solid #f74158;
+        border-radius: 50%;
+    }
+
+    .has-checkin::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: .1rem;
+        height: .1rem;
+        background: #f74158;
+        border-radius: 50%;
+        content: '';
+        transform: translate(-50%, -50%);
+    }
+
+    .show-gift {
+        position: absolute;
+        top: -.75rem;
+        right: -.25rem;
+        width: .7rem;
+        height: .62rem;
+
+        .gift1 {
+            width: .7rem;
+            height: .62rem;
+            background: url('@{imgurl}index_has_open.webp') no-repeat center;
+            background-size: .7rem .62rem;
+        }
+
+        .gift2 {
+            width: 1rem;
+            height: .8rem;
+            margin-top: -.1rem;
+            background: url('@{imgurl}index_wait_open.gif') no-repeat center;
+            background-size: 1.2rem 1rem;
+            background-position-y: -.24rem;
+        }
+
+        .gift3 {
+            width: .7rem;
+            height: .62rem;
+            background: url('@{imgurl}index_not_finish.webp') no-repeat center;
+            background-size: .7rem .62rem;
+        }
+
+        .tips {
+            position: absolute;
+            top: -.35rem;
+            width: .8rem;
+            height: .36rem;
+            font-size: 20rpx;
+            color: #fff;
+            text-align: center;
+
+            >view {
+                margin-top: 5rpx;
+            }
+        }
+
+        .tips-active {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAkCAMAAAApfE1IAAAATlBMVEUAAAD3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVj3QVjh9VAkAAAAGXRSTlMABenr+RCSS4BXxZXtrcjcpXp0Xi4LiDgjAQcGDQAAAMZJREFUSMet1mmyAiEMBOAO+8A477nb97+o5ViFyy+V/g6QAhKSoLOcqgv8WnA1ZcO7WDwH+BLxYnIc5CY8WKNAsx5vQ4mN4S5RpGE1UWZa8+so4yKAQqECmKeQN2RKZSRKJVRKVXhKeQRKBXlA+ZXlSZGXjb6wbdZ+PXVzELcvH+UNdtUo0uRDSj9G9YO+i2XmgLlEvLOclt+WpSVlw2fssPvjK386HzFk/xxy3h4xzLb9If4jJC6VNy5DZhf68UQOyx4fuQJRjdnKIDp2hwAAAABJRU5ErkJggg==') no-repeat center;
+            background-size: .8rem .36rem;
+        }
+
+        .tips-inactive {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAkCAMAAAApfE1IAAAAS1BMVEUAAADU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NRm6+GmAAAAGHRSTlMA6QX5EJKBS1fFleutyNylenReLgvtOCNFMsb6AAAAwUlEQVRIx63WVxLCMAwE0JXcYofQy97/pAxhJqH8BLLvABrbkiVh4iVVC/xZsJqK41PMxhX6HPGmM65kHWbeKNB8irehxMbxlCjSMOoo0435NcpYBJAplAE3CpmjUKogUSqhUqrCKGUIlArygPIry5MiLxt9YXuv/Xry5qBvX/oGCzSKNPmQko9R/aCfxdzLVpF5WRr+W5aGVBzL+Omw/TrL9YxVjq8hL/szVvP99BC7CIlb5YMVyBzCfDyN03DEIndpjtDdj96SrgAAAABJRU5ErkJggg==') no-repeat center;
+            background-size: .8rem .36rem;
+        }
+    }
+
+    .active-color {
+        color: #f74158;
+    }
+
+    .inactive-color {
+        color: #c3c3c3;
+    }
+
+    >view:last-child {
+        position: absolute;
+        bottom: -.4rem;
+        height: .3rem;
+        min-width: .7rem;
+    }
+}
+
+.circle.active {
+    border-color: @line-border-fill;
+    background-color: #eef4fe;
+}

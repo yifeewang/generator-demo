@@ -1,0 +1,29 @@
+// json5可以加注释
+{
+    pages: [
+        "pages/index/index", // 首页
+        "pages/webview/webview"
+    ],
+    plugins: {
+        "xh-banner": {
+            version: "*", // 目前只支持设置 * 拉取当前上架最新版本
+            provider: "2021003132621266", // 固定值，插件 ID
+        },
+        <% if(model.includes('lightFire')) { %>
+        xlightPlugin: {
+            version: "*",
+            provider: "2021001192652032",
+        },
+        <% } %>
+        <% if(model.includes('rechargePlugin')) { %>
+        "charge-module": {
+            version: "*",
+            provider: "2021003145669179",
+        },
+        <% } %>
+    },
+    window: {
+        defaultTitle: "",
+        allowsBounceVertical: "YES", // 允许下拉刷新
+    }
+}

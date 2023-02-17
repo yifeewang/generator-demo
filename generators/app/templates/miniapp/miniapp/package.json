@@ -1,0 +1,19 @@
+{
+    "name": "dist",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "ant-skeleton": "0.0.4",
+        "antd-mini": "0.0.21",
+        "crypto-js": "^4.0.0",
+        "currency.js": "^2.0.4"
+    },
+    "devDependencies": {}
+}

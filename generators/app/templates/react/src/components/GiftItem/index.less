@@ -1,0 +1,87 @@
+.gift_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 2.66rem;
+    border-radius: 0.16rem;
+    background: #FFFFFF;
+    margin-bottom: 0.16rem;
+
+    .gift_item_top {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 6.5rem;
+        height: 1.84rem;
+        border-bottom: 1px solid #EEEEEE;
+
+        .gift_item_img {
+            width: 1.2rem;
+            height: 1.2rem;
+            margin: 0 0.31rem 0 0.26rem;
+        }
+    
+        .gift_item_content {
+            >div:nth-child(1) {
+                width: 2.9rem;
+                font-size: 0.36rem;
+                font-weight: 500;
+                color: #333333;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            >div:nth-child(2) {
+                font-size: 0.24rem;
+                font-weight: 400;
+                color: #666666;
+                margin: 0.08rem 0;
+            }
+            >div:nth-child(3) {
+                font-size: 0.24rem;
+                font-weight: 400;
+                color: #999999;
+            }
+        }
+    
+        .gift_item_btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.65rem;
+            height: 0.6rem;
+            border-radius: 0.7rem;
+            color: #FFFFFF;
+            background: linear-gradient(#FF6215, #FF9A3D);
+            font-size: 0.24rem;
+            font-weight: 400;
+            right: 0rem;
+            top: 0.32rem;        
+        }
+        .gift_item_over {
+            color: #9d9d9d;
+            background: #ededed;
+        }
+    }
+
+    .gift_item_bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 6.5rem;
+        height: 0.82rem;
+
+        >div:nth-child(1){
+            color: #999999;
+            font-size: 0.24rem;
+            font-weight: 400;
+        }
+        >div:nth-child(2){
+            color: #1677FF;
+            font-size: 0.24rem;
+            font-weight: 600;
+        }
+    }
+}

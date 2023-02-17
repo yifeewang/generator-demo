@@ -1,0 +1,54 @@
+{
+    "activity_top": {
+        "activity_title": "10086小面额充值",
+        "prize_title": "我的奖品",
+        "titleImage": "https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/index_title.webp",
+        "backgroundImage": "https://xiaojinhe-cdn.iyoudui.cn/haixing/prod/other/1667555741854-1666681514962-%E6%AF%8F%E6%AC%A1%E9%83%BD%E9%80%81.png",
+        "backgroundColor": "#FFDFD4",
+        "myPrize_icon": "https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/index_prize_icon.webp",
+        "phone_icon": "https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/index_phone_icon.webp",
+        "acCode":"ac5cf9f723551a400e",
+        "buryUrl": "https://log-d2v-activity.19ego.cn/spm/burydata",
+        "starBuryUrl": "https://log-d2v-web.19ego.cn/spm/burydata"
+    },
+    "sceneGroupCode": {
+        "banner_sceneCode": "DOAJQZ4EE1HX",
+        "banner_see_burySpm": "a24.p178.m539.b729",
+        "banner_click_burySpm": "a24.p178.m539.b729"
+    },
+    "moreGifts": {
+        "banner_sceneCode": "DOAJQZ4EE1HX",
+        "banner_see_burySpm": "a24.p178.m539.b729",
+        "banner_click_burySpm": "a24.p178.m539.b729"
+    },
+    "activity_draw_btns": [
+        {
+          "type": "1",
+          "name": "toUse",
+          "image": "https://xiaojinhe-cdn.iyoudui.cn/haixing/test/other/1643106877009-%E7%AB%8B%E5%8D%B3%E9%A2%86%E5%8F%96.gif",
+          "link": "alipays://platformapi/startapp?appId=2018112062226732&page=pages%2FalipayHome%2Findex&query=visit_source%3Dxmeczhd"
+        },
+        {
+          "type": "2",
+          "name": "moreRights",
+          "image": "https://xiaojinhe-cdn.iyoudui.cn/haixing/test/other/1643106877009-%E7%AB%8B%E5%8D%B3%E9%A2%86%E5%8F%96.gif",
+          "link": "alipays://platformapi/startapp?appId=2018112062226732&page=pages%2FalipayHome%2Findex&query=visit_source%3Dxmeczhd"
+        },
+        {
+          "type": "3",
+          "name": "modal_btn",
+          "image": "https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/get_more.png",
+          "link": "alipays://platformapi/startapp?appId=2018112062226732&page=pages%2FalipayHome%2Findex&query=visit_source%3Dxmeczhd"
+        }
+    ],
+    "activity_rule": {
+        "title":"https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/index_rule_title.webp",
+        "backgroundColor": "#FFFFFF",
+        "content": "<p style='font-size: 0.25rem;'>活动时间：2021年8月25日0:00:00-2021年9月5日23:59:59二、活动玩法活动期间，用户进入活动页面，点击一键领取按钮，双V会员直接抽奖，非双V会员开通会员即可获得1次抽奖机会。&nbsp;</p>"
+    },
+    "service":{
+      "serviceIcon": "https://mdn.alipayobjects.com/merchant_appfe/afts/img/A*2aQGRbNbQZMAAAAAAAAAAAAADiR2AQ/.png",
+      "serviceTel": "呼叫 027-87655560",
+      "serviceTime": "9:00-18:00"
+    }
+}

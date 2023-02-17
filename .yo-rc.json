@@ -1,0 +1,13 @@
+{
+    "generator-demo": {
+        "promptValues": {
+            "appName": "yifee",
+            "primaryPath": "packages",
+            "secondPath": "hello",
+            "model": ["starFire", "revisitGift", "yufao", "lightFire", "rechargePlugin", "subscribe"],
+            "gz": true,
+            "appType": "miniapp",
+            "gitSite": "https://gitlab.19ego.cn/wangyf/test.git"
+        }
+    }
+}

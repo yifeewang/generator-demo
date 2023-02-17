@@ -1,0 +1,99 @@
+.bot_fixedbg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 990;
+
+    .bot_fixed {
+        position: fixed;
+        background: #fff;
+        left: 0;
+        right: 0;
+        // bottom: 0rem;
+        height: 2.56rem;
+
+        .bot_fixed_tel {
+            height: 1.28rem;
+            line-height: 0.54rem;
+            overflow: hidden;
+            text-align: center;
+            font-size: 0.3rem;
+            color: #fff;
+            text-indent: 0.6rem;
+            border-bottom: 1px solid #cbcbcb;
+            display: flex;
+            align-items: center;
+            padding-left: 0.44rem;
+
+            .bot_fixed_tel_icon {
+                width: 0.42rem;
+                height: 0.42rem;
+            }
+
+            a {
+                color: #AF7623;
+                font-size: 0.32rem;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            span {
+                font-size: 0.24rem;
+                color: #595959;
+                font-weight: normal;
+            }
+        }
+
+        .bot_fixed_close {
+            text-align: center;
+            font-size: 0.32rem;
+            color: #AF7623;
+            display: flex;
+            align-items: center;
+            height: 1.08rem;
+            justify-content: center;
+            font-weight: 600;
+        }
+    }
+
+    .bot_fixed_tel_transform_show {
+        bottom: 0;
+        animation: transformUp 0.8s;
+    }
+
+    // .bot_fixed_tel_transform_hide {
+    //   bottom: -1.8rem;
+    //   animation-fill-mode: forwards;
+    //   animation: transformDown 0.8s;
+    // }
+}
+
+.bot_fixed_ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    padding-left: 0;
+}
+
+@keyframes transformUp {
+    0% {
+        bottom: -1.8rem;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes transformDown {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -1.8rem;
+    }
+}

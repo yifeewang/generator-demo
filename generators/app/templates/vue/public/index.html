@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <link src="https://xiaojinhe-cdn.iyoudui.cn/haixing/libs/normalize.css">
+  </link>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.min.js"></script>
+  <!-- <script src="https://a.alipayobjects.com/g/component/antbridge/1.1.4/antbridge.min.js"></script> -->
+  <!-- <script src="https://xiaojinhe-cdn.iyoudui.cn/haixing/libs/gy-config.0.0.3.js"></script> -->
+  <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+  <script>
+    if (location.href.indexOf('debug') > -1) {
+      var vConsole = new VConsole();
+    }
+    if (navigator.userAgent.indexOf('AlipayClient') > -1) {
+      document.writeln(
+        '<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>',
+      );
+
+    }
+    (function (doc, win) {
+      function ready(callback) {
+        // 如果jsbridge已经注入则直接调用
+        if (window.AlipayJSBridge) {
+          callback && callback();
+        } else {
+          // 如果没有注入则监听注入的事件
+          console.log('请在支付宝域内打开');
+          document.addEventListener('AlipayJSBridgeReady', callback, false);
+
+          window.AlipayJSBridge = {
+            call: function () {
+              console.log('mock AlipayJSBridge call');
+            }
+          };
+        }
+      }
+    })(document, window);
+
+
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without
+        JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

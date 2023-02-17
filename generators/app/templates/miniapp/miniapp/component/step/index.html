@@ -1,0 +1,27 @@
+<view class="box">
+    <view class="box-step-line">
+    <view class="progress" id="progress" style="width: {{(currentStep)/(stepArr.length - 1) * 100 + '%'}}"></view>
+        <view 
+            a:for="{{stepArr}}" 
+            key="index_topIcon_{{index}}"
+            class="{{item.showIndex ? 'circle' : ''}} {{index <= currentStep ? 'active' : ''}}"
+        >
+            <view a:if="{{item.showIndex}}">
+                <view class="has-checkin" a:if="{{index <= currentStep}}"></view>
+                <view a:else></view>
+            </view>
+            <view class="show-gift" a:if="{{item.showBox}}" data-item="{{item}}" data-index="{{index/5}}" onTap="onBoxClick">
+                <view class="gift1" a:if="{{item.tasStatus === '1'}}"></view>
+                <view class="gift2" a:if="{{item.tasStatus === '2'}}"></view>
+                <view class="gift3" a:if="{{item.tasStatus === '3'}}"></view>
+                <view 
+                    class="tips {{item.tasStatus === '2' ? 'tips-active' : 'tips-inactive'}}" 
+                    a:if="{{item.tasStatus !== '1'}}"
+                >
+                    <view>{{item.handleRewardValue}}元</view>
+                </view>
+            </view>
+            <view class="{{index <= currentStep ? 'active-color' : 'inactive-color'}}">{{item.showIndex ? index : ''}}</view>
+        </view>
+    </view>
+</view>

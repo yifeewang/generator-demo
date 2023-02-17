@@ -1,0 +1,123 @@
+.alertModel {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /* right: 0;
+    bottom: 0; */
+    background: rgba(0, 0, 0, .4);
+    z-index: 999
+}
+
+.alertModel .modal {
+    width: 588rpx;
+    height: 330rpx;
+    background: #fff url(https://ctopmweb.oss-cn-beijing.aliyuncs.com/dianxinApp/static/images/bg_dialogin.png) top no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 16rpx;
+    overflow: hidden;
+}
+
+.alertModel .modal .close {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAaBAMAAACwU+r+AAAAIVBMVEUAAADl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXKFNI3AAAACnRSTlMAD8vKxU9DAR4CyhLPlQAAAHJJREFUGNNjYChggAAwi9URxmF0ZWDIWiwA5QmtSgBiQ6iU1iIBIAGUhEgpgklDmBSUgklBaLgYhAERgklCpGCSTSApuOQqkBRcEi6F4GGqRJiCaQPCdjSXoboaQsEEoSRUFErAJbMWIYUSaggih+4EBgDeaCoHzNAw6gAAAABJRU5ErkJggg==) center no-repeat;
+    background-size: 25rpx 26rpx;
+    position: absolute;
+    width: 33rpx;
+    height: 33rpx;
+    z-index: 1000;
+    top: 15rpx;
+    right: 15rpx;
+}
+
+.alertModel .modal .title {
+    text-align: center;
+    height: 204rpx;
+    line-height: 244rpx;
+    font-size: 28rpx;
+    position: relative;
+    overflow: hidden;
+}
+
+/* .alertModel .modal .title::after{
+    content:'';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1rpx solid #f2f2f2;
+} */
+.alertModel .modal .title .titleContent {
+    display: inline-block;
+    text-align: left;
+    max-height: 204rpx;
+    text-align: center;
+    color: #122f56;
+    font-size: 36rpx;
+}
+
+.alertModel .modal .title .titleContent.onLine {
+    line-height: 85rpx;
+}
+
+.alertModel .modal .title .titleContent text {
+    line-height: 43rpx;
+    font-size: 36rpx;
+    font-family: PingFangSC-Regular;
+    color: #122f56;
+}
+
+.alertModel .modal .btns {
+    display: flex;
+    font-size: 36rpx;
+    margin: 0 15rpx;
+    justify-items: center;
+    align-items: center;
+}
+
+.alertModel .modal .btns view,.alertModel .modal .btns button {
+    text-align: center;
+    color: #122f56;
+    font-family: PingFangSC-Regular;
+    width: 250rpx;
+    height: 78rpx;
+    line-height: 78rpx;
+    border: 2rpx solid #122f56;
+    box-sizing: border-box;
+    margin: 0 14rpx;
+    font-size: 36rpx;
+    border-radius: .4rem;
+
+}
+
+.alertModel .modal .btns view:last-child {
+    position: relative;
+    color: #fff;
+}
+
+/* .alertModel .modal .btns view:last-child::after{
+    position: absolute;
+    content:"";
+    left: 0;
+    top: 0;
+    bottom:0;
+    border-left: 1rpx solid #f2f2f2;
+} */
+/* .cancelBtn{
+    border-top: 1px solid #ddd;
+} */
+.confirmBtn {
+    width: 250rpx;
+    height: 78rpx;
+    background: #122f56;
+    color: #fff;
+
+
+
+}

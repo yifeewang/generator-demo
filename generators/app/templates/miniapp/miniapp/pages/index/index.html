@@ -1,0 +1,115 @@
+<view class="page-wraper">
+    <% if(model.includes('gz')) { %>
+    <!-- 关注生活号组件 => 具体样式自己修改 -->
+    <view a:if="{{showFocus}}" class="message-focus">
+        <view class="message-focus-left"></view>
+        <view class="message-focus-mid">
+            <view>中国电信生活号</view>
+            <view>掌握最新资讯与优惠福利</view>
+        </view>
+        <button 
+            class="message-focus-right" 
+            open-type="lifestyle"
+            public-id="2013101400001759"
+            onTap="fllowLife"
+            onFollowLifestyle="onFollowLifestyle"
+        >
+            <view>关注生活号</view>
+        </button>
+    </view>
+    <% } %>
+    <% if(model.includes('starFire')) { %>
+    <!-- 星火banner => 轮播  -->
+    <view class="index-hx-banner" a:if="{{xhBannerList.length}}">
+        <xh-banner
+            width="702"
+            height="168"
+            env="{{env}}"
+            uid="{{uid}}"
+            projectType="{{projectType}}"
+            channel="{{query.channel}}"
+            appId="{{appId}}"
+            bannerList="{{middleBannerList}}"
+            onBannerVisitProps="onBannerVisitProps"
+            onBannerClickProps="onBannerClickProps"
+        ></xh-banner>
+    </view>
+    <% } %>
+    <% if(model.includes('rechargePlugin')) { %>
+    <charge-module
+        env="{{env}}"
+        url="alipays://platformapi/startapp?appId=2021003140679313&page=pages/recharge/recharge"
+        zwlArr="{{chargeCode}}"
+    />
+    <% } %>
+    <% if(model.includes('lightFire')) { %>
+    <!-- 灯火 -->
+    <view class="denghuo" a:if="{{isFeedsShow==1}}">
+        <feeds
+            spaceCode="ad_tiny_2021003140679313_202209262200041250"
+            onRenderSuccess="onRenderSuccessAD"
+            onRenderFail="onRenderFailAD"
+            onSaveRef="onAdSaveRef"
+        >
+        </feeds>
+    </view>
+    <% } %>
+    <% if(model.includes('yufao')) { %>
+    <!-- 收货地址弹窗 -->
+    <view class="address-dialog" a:if="{{ dialogAddress }}">
+        <view class="address-box">
+            <view class="address-close" onTap="hideView"></view>
+            <view class="address-items">
+                <view class="address-tips">
+                    <view>商品将在活动结束后15个工作日内寄出</view>
+                </view>
+                <view class="address-input-container">
+                    <view class="address-input">
+                        <input
+                            maxlength="15"
+                            data-type="name"
+                            onInput="setInfoDetail"
+                            placeholder="请输入收货人姓名"
+                            placeholder-class="input-placeholder"
+                        />
+                    </view>
+                    <view class="address-input">
+                        <input
+                            maxlength="11"
+                            data-type="phone"
+                            onInput="setInfoDetail"
+                            placeholder="请输入收货电话"
+                            placeholder-class="input-placeholder"
+                            type="number"
+                        />
+                    </view>
+                    <view class="address-input">
+                        <input
+                            maxlength="40"
+                            data-type="address"
+                            onInput="setInfoDetail"
+                            placeholder="请输入收货地址"
+                            placeholder-class="input-placeholder"
+                        />
+                    </view>
+                </view>
+                <view class="address-btn" onTap="gainPrize"></view>
+            </view>
+        </view>
+    </view>
+    <% } %>
+</view>
+<% if(model.includes('gz')) { %>
+<!-- 获取生活号关注状态 -->
+<life-follow 
+    style="display:none;"  
+    checkFollow="{{checkFollow}}" 
+    onCheckFollow="checkFollowCb" 
+    a:if="{{showFocus}}"
+    sceneId="f6422590e0fb4b44a2e0c2493662b579"
+/>
+<% } %>
+<% if(model.includes('revisitGift')) { %>
+<!-- 访问有礼 -->
+<visit-gift a:if="{{uid}}" uid='{{uid}}' env='{{env}}' configMark={{configMark}} />
+<% } %>

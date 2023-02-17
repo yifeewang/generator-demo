@@ -1,0 +1,199 @@
+@imgurl: "https://xiaojinhe-cdn.iyoudui.com/activity/MOREQ-440/";
+
+.prize_wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 6.5rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 0.3rem;
+    // margin-top: -0.3rem;
+}
+.prizeInfoBg{
+    margin-top: .32rem;
+    z-index: 10;
+}
+.prizeInfoBg1 {
+    margin-top: .32rem;
+    z-index: 10;
+}
+
+.prizeinfo1 {
+  width: 5.38rem;
+  height: 1.38rem;
+  display: flex;
+  align-items: center;
+  background: url("@{imgurl}coupon_bg.png") no-repeat;
+  background-size: 100% 100%;
+  padding: 0 0.1rem;
+  box-sizing: border-box;
+  justify-content: space-between;
+
+  .prizeImg {
+    width: 0.86rem;
+    height: 0.86rem;
+    margin-right: 0.15rem;
+  }
+
+  .prizeWord {
+    display: flex;
+    // flex-shrink: 0;
+    flex-direction: column;
+    // flex: 1;
+    text-align: left;
+    margin-right: 0.18rem;
+  }
+
+  .prizeName {
+    width: 1.88rem;
+    font-size: 0.26rem;
+    color: #c48238;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+  }
+
+  .prizeDesc {
+    width: 1.88rem;
+    font-size: 0.22rem;
+    color: #c48238;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .prizeBtn,
+  .getBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 1.2rem;
+    height: 0.46rem;
+    line-height: 0.46rem;
+    background: linear-gradient(270deg, #f94d37 5.74%, #ff8171 100%);
+    border-radius: 0.25rem;
+    font-size: 0.24rem;
+    color: #fff;
+  }
+}
+
+.special_wraper {
+    position: relative;
+
+    .special_left_star {
+        position: absolute;
+        left: -.3rem;
+        top: -1.4rem;
+        width: 3.45rem;
+        height: 3.53rem;
+        z-index: 9;
+        background: url("@{imgurl}left_star.png") no-repeat;
+        background-size: 100% 100%;
+    }
+    .special_right_star {
+        position: absolute;
+        right: -0.4rem;
+        bottom: -1.9rem;    
+        width: 3.45rem;
+        height: 3.53rem;
+        z-index: 9;
+        background: url("@{imgurl}right_star.png") no-repeat;
+        background-size: 100% 100%;
+    }
+}
+
+.special_item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 6.54rem;
+    height: 1.8rem;
+    margin: .3rem 0 0;
+    background: linear-gradient(270deg, #FF4835 0%, #F3321E 28.04%);
+    border-radius: .17rem;
+
+    .special_prizeImg {
+
+    }
+
+    .special_left {
+        display: flex;
+        align-items: baseline;
+        font-weight: 700;
+        font-size: .64rem;
+        line-height: .62rem;
+        color: #FFFFFF;
+        margin-left: .28rem ;
+
+        >:nth-child(2) {
+            font-weight: 500;
+            font-size: .24rem;
+            line-height: .30rem;
+        }
+    }
+    .line_white {
+        width: .01rem;
+        height: 1.44rem;
+        background: url("@{imgurl}line_white.png") no-repeat;
+        background-size: 100% 100%;
+        margin: 0 .26rem;
+    }
+    .special_prizeWord {
+        display: flex;
+        flex-direction: column;
+        color: #FFFFFF;
+
+        .special_prizeName {
+            width: 2.2rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 700;
+            font-size: .32rem;
+            line-height: .32rem;
+            margin-bottom: .1rem;
+        }
+
+        .special_prizeDesc {
+            width: 2.2rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 400;
+            font-size: .22rem;
+            line-height: .24rem;
+            color: rgba(255, 255, 255, 0.703671);
+        }
+    }
+    .special_btn {
+        position: absolute;
+        top: .4rem;
+        right: .27rem;
+        width: 1.8rem;
+        height: 1rem;
+        background: url("@{imgurl}use_special.png") no-repeat;
+        background-size: 100% 100%;
+        z-index: 999;
+        animation: jum_prize 1.5s linear infinite;
+    }
+
+    @keyframes jum_prize {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(1.05);
+        }
+        50% {
+            transform: scale(1);
+        }
+        75% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+}

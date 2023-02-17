@@ -1,0 +1,45 @@
+<!--    轮播-->
+<view class="banner-box" a:if="{{bannerList.length==1}}">
+    <image
+        onTap="bannerClick"
+        data-item="{{bannerList[0]}}"
+        data-url="{{bannerList[0].linkUrl||bannerList[0].banTurnUrl}}"
+        data-name="{{bannerList[0].name}}"
+        data-province="{{bannerList[0].provinceName}}"
+        data-title="{{bannerList[0].banConName}}"
+        data-sort="{{bannerList[0].sort}}"
+        data-type="{{type}}"
+        data-index="{{0}}"
+        class="bannerImg"
+        src="{{bannerList[0].imageUrl||bannerList[0].banConUrl}}"
+    ></image>
+</view>
+<view class="banner-box" a:if="{{bannerList.length>1}}">
+    <swiper
+        class="demo-swiper"
+        indicator-dots="{{indicatorDots}}"
+        autoplay="{{autoplay}}"
+        vertical="{{vertical}}"
+        interval="{{interval}}"
+        circular="{{circular}}"
+    >
+        <block a:for="{{bannerList}}">
+            <swiper-item>
+                <view class="swiper-slide">
+                    <image
+                        class="bannerImg"
+                        src="{{item.imageUrl||item.banConUrl}}"
+                        data-item="{{item}}"
+                        data-url="{{item.linkUrl||item.banTurnUrl}}"
+                        data-index="{{index}}"
+                        data-sort="{{item.sort}}"
+                        data-province="{{item.provinceName}}"
+                        data-title="{{item.banConName}}"
+                        data-type="{{type}}"
+                        onTap="bannerClick"
+                    />
+                </view>
+            </swiper-item>
+        </block>
+    </swiper>
+</view>

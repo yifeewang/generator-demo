@@ -1,0 +1,23 @@
+title(活动标题): Input
+acCode1(主活动accode): Input
+acCode2(准点抢accode): Input
+sceneGroupCode1(展位码1): Input
+sceneGroupCode2(展位码2): Input
+pageColor(背景色): Input
+
+pageBg(活动背景图): Image
+titleBg(背景标题图): Image
+cardList(3卡券):
+  card1(券1): Image
+  card2(券2): Image
+  card3(券3): Image
+
+moreBtn1(首页查看更多图): Image
+moreUrl1(首页查看更多url): Input
+moreBtn2(奖品弹框查看更多图): Image
+moreUrl2(奖品弹框查看更多url): Input
+noBeginToast(未开始toast): Input
+bottomText(底部文案): Input
+canShare(支持分享): Switch
+ruleIcon(规则icon): Image
+ruleText(活动规则文案): RichText

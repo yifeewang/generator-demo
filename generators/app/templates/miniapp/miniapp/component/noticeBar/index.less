@@ -1,0 +1,69 @@
+.wrap-y {
+    width: 100%;
+    height: 100%;
+
+    .swiper-wrap {
+        width: 100%;
+        height: 100%;
+
+        .item-con {
+            display: flex;
+            width: 92%;
+            height: 100%;
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
+
+            >view {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+.wrap-x {
+    width: 100%;
+    height: 100%;
+
+    .wrap-out {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .wrap-inner {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .contant {
+            display: flex;
+            width: 92%;
+            height: 100%;
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
+
+            >view {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                animation: remindmessage 6s linear infinite;
+            }
+        }
+    }
+}
+
+@keyframes remindmessage {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-180%);
+    }
+}

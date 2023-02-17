@@ -1,0 +1,11 @@
+{
+    "enableAppxNg": true,
+    "component2": true,
+    "axmlStrictCheck": true,
+    "enableParallelLoader": true,
+    "enableNodeModuleBabelTransform": true,
+    "node_modules_es6_whitelist": [
+        "json-circular-stringify"
+    ],
+    "enableHMR": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "1",
+  "version": "0.0.1",
+  "buss_line": "电信",
+  "acCode1": "ac24b6a8a55c1940a4",
+  "acCode2": "acd4d0cbc3c1ba4fae",
+  "sceneGroupCode1": "KAQXUIW5N2UG",
+  "sceneGroupCode2": "APIX9XURHYZL",
+  "pageColor": "#fec182ff",
+  "title": "页面标题",
+  "pageBg": "https://ctopmweb-cdn.iyoudui.com/images/dxBirth/bj.png",
+  "titleBg": "https://ctopmweb-cdn.iyoudui.com/images/dxBirth/title.png",
+  "cardList": {
+    "card1": "https://xiaojinhe-cdn.iyoudui.com/activity/september/prize1.webp",
+    "card2": "https://ctopmweb.oss-cn-beijing.aliyuncs.com/images/dxreq-176/quan-icon1.png",
+    "card3": "https://xiaojinhe-cdn.iyoudui.com/activity/september/prize1.webp"
+  },
+  "moreBtn1": "https://xiaojinhe-cdn.iyoudui.cn/haixing/dev/other/1662695307329-btn5.png",
+  "moreUrl1": "https://www.baidu.com",
+  "moreBtn2": "https://xiaojinhe-cdn.iyoudui.cn/haixing/dev/other/1662695307329-btn5.png",
+  "moreUrl2": "https://www.163.com",
+  "noBeginToast": "活动时间为9.15~9.21，记得按时参加哦",
+  "bottomText": "活动时间：每月15日至21日",
+  "canShare": false,
+  "ruleIcon": "https://xiaojinhe-cdn.iyoudui.cn/haixing/dev/other/1663061175968-rule.png",
+  "ruleText": "<h2>测试规则文案</h2>测试规则文案<p>测试规则文案</p>"
+}

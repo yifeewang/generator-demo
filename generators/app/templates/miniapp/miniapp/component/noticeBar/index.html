@@ -1,0 +1,28 @@
+<!-- Y轴滚动公告 -->
+<view class="wrap-y" a:if="{{isY}}">
+	<swiper
+	 class="swiper-wrap"
+	 vertical
+	 autoplay
+	 circular
+	 interval="3000"
+	>
+		<block a:for="{{list}}">
+			<swiper-item>
+				<view class="item-con">
+                    <view>{{item.title}}</view>
+                </view>
+			</swiper-item>
+		</block>
+	</swiper>
+</view>
+<!-- X轴滚动公告 -->
+<view class='wrap-x' a:else>
+	<view class="wrap-out">
+		<view class="wrap-inner">
+			<view class="contant">
+                <view>{{notice}}</view>
+            </view>
+		</view>
+	</view>
+</view>
