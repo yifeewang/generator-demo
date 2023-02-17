@@ -5,6 +5,7 @@
 
 First, install [Yeoman](http://yeoman.io) and generator-demo using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
+已发布则进行如下步骤：
 ```bash
 npm install -g yo
 npm install -g generator-demo
@@ -16,6 +17,17 @@ Then generate your new project:
 yo demo
 ```
 
+未发布则：
+```bash
+npm install -g yo
+npm link
+```
+
+Then generate your new project:
+
+```bash
+yo demo
+```
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
