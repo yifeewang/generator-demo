@@ -177,6 +177,7 @@ module.exports = class extends Generator {
         git init && 
         git remote add origin ${gitSite} &&
         git add . &&
+        git commit . &&
         git push -u origin master
     `);
     this.log(`${chalk.green("仓库已连接 🌟🌟🌟")}`);
