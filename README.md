@@ -1,20 +1,20 @@
-# generator-demo [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-gycli [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > my-demo
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-demo using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-gycli using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 已发布则进行如下步骤：
 ```bash
 npm install -g yo
-npm install -g generator-demo
+npm install -g generator-gycli
 ```
 
 Then generate your new project:
 
 ```bash
-yo demo
+yo gycli
 ```
 
 未发布则：
@@ -26,7 +26,7 @@ npm link
 Then generate your new project:
 
 ```bash
-yo demo
+yo gycli
 ```
 ## Getting To Know Yeoman
 
@@ -40,9 +40,9 @@ yo demo
 MIT © [yifeewang]()
 
 
-[npm-image]: https://badge.fury.io/js/generator-demo.svg
-[npm-url]: https://npmjs.org/package/generator-demo
-[travis-image]: https://travis-ci.com/yifeewang/generator-demo.svg?branch=master
-[travis-url]: https://travis-ci.com/yifeewang/generator-demo
-[daviddm-image]: https://david-dm.org/yifeewang/generator-demo.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/yifeewang/generator-demo
+[npm-image]: https://badge.fury.io/js/generator-gycli.svg
+[npm-url]: https://npmjs.org/package/generator-gycli
+[travis-image]: https://travis-ci.com/yifeewang/generator-gycli.svg?branch=master
+[travis-url]: https://travis-ci.com/yifeewang/generator-gycli
+[daviddm-image]: https://david-dm.org/yifeewang/generator-gycli.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/yifeewang/generator-gycli

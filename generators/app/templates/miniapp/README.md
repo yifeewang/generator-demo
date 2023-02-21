@@ -8,7 +8,7 @@ yarn
 ````
 安装运行依赖
 ````bash
-cd miniapp
+cd src
 yarn
 ````
 > 如果上传小程序时遇到Packed fail. "errorMessage": "使用tnpm安装依赖可能导致上传时构建失败，请使用 \"tnpm i --by=yarn\" 安装依赖"。可以用yarn安装mini-ali-ui不要用npm install。

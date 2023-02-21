@@ -1,15 +1,8 @@
 import { queryMixins, userAuth } from '/mixins/index';
 import { SUCESS_CODE } from "/common/constance";
 import { reportAdvertisingEvents, handleTuiAItem, qs, throttle } from '/utils/tool';
-import {
-    receiveGoods,
-    GET_AC_INFO_ALL,
-    activityDraw,
-    getPrizeList
-} from "/apis/api";
 const Alipay = require('/utils/Alipay');
 const Tool = require('/utils/tool');
-const api = Alipay.api;
 const app = getApp();
 const hostConfig = require("/config.js");
 <% if(model.includes('starFire')) { %>
@@ -28,16 +21,16 @@ const XH_BANNER_ZWM = {
 
 Page({
     mixins: [queryMixins, userAuth],
-    notAutoUserInfo: true, //不自动调用登录信息接口
+    notAutoUserInfo: true, //不自动调用用户信息接口
     data: {
         query: {},
         firstInPage: true,
         box_bg: '', // 弹窗后页面固定
         turnUrl: '',
         <% if(model.includes('starFire')) { %>
-        xhBannerList: [], // 星火banner
+        xhBannerZWM: XH_BANNER_ZWM, //星火banner展位码
         <% } %>
-        <% if(model.includes('gz')) { %>
+        <% if(model.includes('lifeFllow')) { %>
         // 生活号
         showFocus: true, //是否显示关注生活号按钮
         checkFollow: true, // 通过组件获取关注状态。
@@ -67,7 +60,8 @@ Page({
         const encodeQuery = qs.getFilterQuery(this.data.query);
         this.setData({
             turnUrl: `${this.data.turnUrl}&query=${encodeQuery}`,
-            env: hostConfig.hostConfig
+            env: hostConfig.hostConfig,
+            appId: app.globalData.appId
         });
         // 1. 需要支付宝授权 获取用户信息
         // this.initQryLoginInfo((userStatus) => {
@@ -79,13 +73,35 @@ Page({
         });
     },
     async onShow (query) {
+        <% if(model.includes('starFire')) { %>
+        //手动查询banner数据
+        this.onSaveRef && this.onSaveRef.resetQryBanner && this.onSaveRef.resetQryBanner();
+        <% } %>
         if (!this.data.firstInPage && this.data.uid) {
-            this.queryXHBanner();
         }
         this.setData({
             firstInPage: false
         });
     },
+    onReady() {
+        <% if(model.includes('taskModule')) { %>
+        this.getTaskList();
+        <% } %>
+    },
+    <% if(model.includes('starFire')) { %>
+    //============================================ 星火banner相关 =================================================
+    onSaveRef(ref) {
+        this.onSaveRef = ref;
+    },
+    //onJumpOut 点击跳转回调
+    onJumpOut(url,item) {
+        //参数 跳转url，当前帧item
+    },
+    //onQueryBannerList 返回查询到的banner数据
+    onQueryBannerList(list) {
+        //参数list bannerList
+    },
+    <% } %>
     initPage(userStatus) {
         //存在uid
         if (userStatus.uid) {
@@ -96,30 +112,7 @@ Page({
         <% if(model.includes('yufao')) { %>
         this.getActivityInfo();
         <% } %>
-        <% if(model.includes('starFire')) { %>
-        this.queryXHBanner();
-        <% } %>
     },
-    <% if(model.includes('starFire')) { %>
-    //============================================ banner相关 =================================================
-    //查询星火banner
-    async queryXHBanner() {
-        const { center } = XH_BANNER_ZWM[hostConfig.env];
-        const res = await app.Service.QUERY_STAR_FIRE_CONF({
-            sceneGroupCode: `${center}`,
-            userId: this.data.uid,
-            receiptType: "SERVICE_C_0101",
-            terminal:
-                app.globalData.systemInfo && app.globalData.systemInfo.platform,
-        });
-        const data = Object.keys(res.data || {});
-        if (data.indexOf(center) > -1 && res.data[center].length) {
-            this.setData({
-                xhBannerList: res.data[center]
-            });
-        }
-    },
-    <% } %>
     <% if(model.includes('yufao')) { %>
     //============================================ 扶摇相关 =================================================
     // 查询活动详情
@@ -133,7 +126,7 @@ Page({
             uid: uid,
         };
         try {
-            const result = await GET_AC_INFO_ALL({ params, acCode }, { useGateWay: true });
+            const result = await app.Service.GET_AC_INFO_ALL({ params, acCode }, { useGateWay: true });
             console.log('=====getActivityInfo-isMember-subStatus=====', result);
             if (result.code === SUCESS_CODE) {
                 // const drawObj = (result.result || {}).isDrawVO || {};
@@ -163,7 +156,7 @@ Page({
         if (!phoneNum) {
             return;
         }
-        const result = await activityDraw({ acCode, appId, extData: phoneNum });
+        const result = await app.Service.activityDraw({ acCode, appId, extData: phoneNum });
         if (result.code == SUCESS_CODE) {
             const goodsList = result?.result || {};
             const newGoodsList = handleTuiAItem(goodsList) || {};
@@ -268,7 +261,7 @@ Page({
         };
 
         my.showLoading();
-        const result = await receiveGoods({ ...params, acCode }, { useGateWay: true });
+        const result = await app.Service.receiveGoods({ ...params, acCode }, { useGateWay: true });
 
         my.hideLoading();
         if (result.code === SUCESS_CODE) {
@@ -293,7 +286,7 @@ Page({
         try {
             const { appId } = this.data;
             const { acCode } = this.data.query;
-            const result = await getPrizeList({ acCode, appId }, { useGateWay: true });
+            const result = await app.Service.getPrizeList({ acCode, appId }, { useGateWay: true });
             if (result.code === SUCESS_CODE) {
                 if (result.result.length === 0) {
                     return;
@@ -359,6 +352,29 @@ Page({
         return findItem;
     },
     <% } %>
+    <% if(model.includes('taskModule')) { %>
+    //============================================ 任务插件相关 =================================================
+    async getTaskList() {
+      const { authCode } = await Alipay.getAuthCodeBase();
+      const isSendMessage = false;
+      const params = {
+        env: this.data.env,
+        authCode,
+        appId: app.globalData.appId,
+        acCode: this.data.query.acCode,
+        isSendMessage
+      }
+      const taskRes = await app.Service.QUERY_TASK_STATUS(params)
+      if (taskRes.code === 100000) {
+        // console.log("taskList", taskList);
+        const taskList = taskRes.result || [];
+        if (taskList.length === 0) return;
+        this.setData({
+          taskList: Tool.handleTaskData(taskList)
+        })
+      }
+    },
+    <% } %>
     <% if(model.includes('lightFire')) { %>
     onRenderSuccessAD() {
         console.log("onRenderSuccess");
@@ -421,7 +437,7 @@ Page({
         });
     }, 1000),
     <% } %>
-    <% if(model.includes('gz')) { %>
+    <% if(model.includes('lifeFllow')) { %>
     //============================================ 关注生活号相关 =================================================
     checkFollowCb(e) {
         // e.detail对象里会有followed字段，可以用来判断关注状态

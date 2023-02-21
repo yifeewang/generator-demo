@@ -7,7 +7,7 @@
     height: 100vh;
     flex-direction: column;
     align-items: center;
-
+    <% if(model.includes('yufao')) { %>
     .address-dialog {
         position: fixed;
         top: 0;
@@ -110,8 +110,9 @@
             background-size: 100%;
         }
     }
+    <% } %>
 }
-
+<% if(model.includes('lifeFllow')) { %>
 .message-focus {
     position: relative;
     display: flex;
@@ -162,25 +163,11 @@
         align-items: center;
     }
 }
-
-.index-banner-module-box {
-    width: 7.02rem;
-    height: 1.69rem;
-    margin: .5rem 0 0;
-
-    .swiper {
-        width: 100%;
-        height: 100%;
-    }
+<% } %>
+<% if(model.includes('starFire')) { %>
+.index-hx-banner {
+    width: 702rpx;
+    height: 168rpx;
+    margin: 0rpx auto 0;
 }
-
-.index-top-banner {
-    width: 7.02rem;
-    height: 1.69rem;
-    margin: .5rem 0 0;
-
-    .swiper {
-        width: 100%;
-        height: 100%;
-    }
-}
+<% } %>

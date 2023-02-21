@@ -1,5 +1,5 @@
 <view class="page-wraper">
-    <% if(model.includes('gz')) { %>
+    <% if(model.includes('lifeFllow')) { %>
     <!-- 关注生活号组件 => 具体样式自己修改 -->
     <view a:if="{{showFocus}}" class="message-focus">
         <view class="message-focus-left"></view>
@@ -20,22 +20,33 @@
     <% } %>
     <% if(model.includes('starFire')) { %>
     <!-- 星火banner => 轮播  -->
-    <view class="index-hx-banner" a:if="{{xhBannerList.length}}">
-        <xh-banner
+    <view class="index-hx-banner" a:if="{{uid}}">
+        <spark-banner
             width="702"
             height="168"
             env="{{env}}"
             uid="{{uid}}"
-            projectType="{{projectType}}"
             channel="{{query.channel}}"
-            appId="{{appId}}"
-            bannerList="{{middleBannerList}}"
-            onBannerVisitProps="onBannerVisitProps"
-            onBannerClickProps="onBannerClickProps"
-        ></xh-banner>
+            xhchannel="{{query.xhchannel}}" 
+            xhBannerZWM="{{xhBannerZWM}}"
+            onJumpOut="onJumpOut"
+            onSaveRef="onSaveRef"
+        ></spark-banner>
     </view>
     <% } %>
+    <% if(model.includes('taskModule')) { %>
+    <!-- 任务插件  -->
+    <task-module 
+        env="{{env}}"
+        acCode="{{query.acCode}}",
+        appId="{{appId}}"
+        taskList="{{taskList}}"
+        onTaskDone="onTaskDone"
+        onSaveRef="onSaveRef"
+    ></task-module>
+    <% } %>
     <% if(model.includes('rechargePlugin')) { %>
+    <!-- 充值插件  -->
     <charge-module
         env="{{env}}"
         url="alipays://platformapi/startapp?appId=2021003140679313&page=pages/recharge/recharge"
@@ -43,7 +54,7 @@
     />
     <% } %>
     <% if(model.includes('lightFire')) { %>
-    <!-- 灯火 -->
+    <!-- 灯火广告 -->
     <view class="denghuo" a:if="{{isFeedsShow==1}}">
         <feeds
             spaceCode="ad_tiny_2021003140679313_202209262200041250"
@@ -99,7 +110,7 @@
     </view>
     <% } %>
 </view>
-<% if(model.includes('gz')) { %>
+<% if(model.includes('lifeFllow')) { %>
 <!-- 获取生活号关注状态 -->
 <life-follow 
     style="display:none;"  
@@ -112,4 +123,18 @@
 <% if(model.includes('revisitGift')) { %>
 <!-- 访问有礼 -->
 <visit-gift a:if="{{uid}}" uid='{{uid}}' env='{{env}}' configMark={{configMark}} />
+<% } %>
+<% if(model.includes('smartService')) { %>
+<!-- 智能客服 -->
+<contact-button 
+    env="{{env}}"
+    tntInstId="QTJAWQCN"
+    scene="SCE01232662"
+    uid="{{uid}}"
+    appId="{{appId}}"
+    channel="插件调试"
+    appName="集集镇"
+    left="640"
+    top="900"
+></contact-button>
 <% } %>

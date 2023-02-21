@@ -1,13 +1,15 @@
 {
-    "generator-demo": {
+    "generator-gycli": {
         "promptValues": {
             "appName": "yifee",
             "primaryPath": "packages",
             "secondPath": "hello",
-            "model": ["starFire", "revisitGift", "yufao", "lightFire", "rechargePlugin", "subscribe"],
+            "model": ["taskModule", "smartService", "lightFire", "rechargePlugin", "subscribe", "lifeFllow"],
             "gz": true,
             "appType": "miniapp",
-            "gitSite": "https://gitlab.19ego.cn/wangyf/test.git"
+            "gitSite": "https://gitlab.19ego.cn/wangyf/test.git",
+            "pageName": "index",
+            "pagePath": "miniapp/packageList"
         }
     }
 }

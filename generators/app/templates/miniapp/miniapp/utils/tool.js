@@ -553,3 +553,67 @@ function validateUrl(url) {
         return '';
     }
 }
+
+function handleTaskData(tasks) {
+  let list = []
+  tasks.forEach(ele => {
+    if (ele.outTaskCommonInfoList && ele.outTaskCommonInfoList.length) {
+      ele.outTaskCommonInfoList.forEach(item => {
+        if (item.taskType === 7) {
+          list.push({
+            ...ele,
+            name: item.outTaskTitle || ele.taskSubject,
+            desc: item.outTaskSubTitle || ele.taskSubSubject,
+            image: ele.taskImgUrl,
+            taskJumpUrl: item.jumpUrl || ele.taskJumpUrl,
+            browseTime: item.browseTime || ele.browseTime,
+            unionTaskInfo: item
+          })
+        } else if (item.taskType === 11) {
+          list.push({
+            ...ele,
+            name: item.outTaskTitle || ele.taskSubject,
+            desc: `浏览${item.browseTime}秒领取奖励`,
+            image: item.outTaskImageUrl || ele.taskImgUrl,
+            taskJumpUrl: item.jumpUrl || ele.taskJumpUrl,
+            browseTime: item.browseTime || ele.browseTime,
+            unionTaskInfo: item,
+          })
+        } else {
+          list.push({
+            ...ele,
+            name: item.outTaskTitle || ele.taskSubject,
+            desc: item.outTaskSubTitle || ele.taskSubSubject,
+            image: item.outTaskImageUrl || ele.taskImgUrl,
+            taskJumpUrl: item.jumpUrl || ele.taskJumpUrl,
+            browseTime: item.browseTime || ele.browseTime,
+            unionTaskInfo: item,
+          })
+        }
+      })
+    } else {
+      list.push({
+        ...ele,
+        name: ele.taskSubject,
+        desc: ele.taskSubSubject,
+        image: ele.taskImgUrl,
+      })
+    }
+
+  })
+
+  // 对接任务插件-处理UI
+  list = list.map(ele => {
+    return {
+      ...ele,
+      itemBgColor: '#fff',
+      btnColor: 'linear-gradient(90deg, #FF7D2F 0%, #FF4B19 100%), #D8D8D8;',
+      textColor: '#fff',
+      btnText: '去完成',
+      btnTips: '锦鲤卡' + ele.sumRewardValue,
+      taskDoneStyle: ''
+    }
+  })
+
+  return list
+}

@@ -1,5 +1,5 @@
 <view class="page-wraper">
-    <% if(model.includes('gz')) { %>
+    <% if(model.includes('lifeFllow')) { %>
     <!-- 关注生活号组件 => 具体样式自己修改 -->
     <view a:if="{{showFocus}}" class="message-focus">
         <view class="message-focus-left"></view>
@@ -18,34 +18,54 @@
         </button>
     </view>
     <% } %>
-    <% if(model.includes('xh')) { %>
+    <% if(model.includes('starFire')) { %>
     <!-- 星火banner => 轮播  -->
-    <view class="index-banner-module-box" a:if="{{showXHBanner}}">
-        <xinghuo-banner-common-module bannerList="{{xhBannerList}}"></xinghuo-banner-common-module>
+    <view class="index-hx-banner" a:if="{{uid}}">
+        <spark-banner
+            width="702"
+            height="168"
+            env="{{env}}"
+            uid="{{uid}}"
+            channel="{{query.channel}}"
+            xhchannel="{{query.xhchannel}}" 
+            xhBannerZWM="{{xhBannerZWM}}"
+            onJumpOut="onJumpOut"
+            onSaveRef="onSaveRef"
+        ></spark-banner>
     </view>
     <% } %>
-    <!-- 普通banner => 轮播  -->
-    <view class="index-top-banner" a:if="{{normalBannerList.length>0}}">
-        <index-banner-module
-            bannerList="{{normalBannerList}}"
-            type="topBanner"
-        ></index-banner-module>
-    </view>
-    <% if(model.includes('login')) { %>
-    <!--登录模块-->
-    <login-dialog
-        ref="saveRef"
-        titleText="请选择登录方式"
-        onZfbLogin="zfbLogin"
-        onLogout="logout"
-        queryLoginStatusToShowLoginDialog="{{queryLoginStatusToShowLoginDialog}}"
-        turnUrl="{{turnUrl}}"
-        onOtherLogin="otherLogin"
-        onAutoLogin="onAutoLogin"
-    >
-    </login-dialog>
+    <% if(model.includes('taskModule')) { %>
+    <!-- 任务插件  -->
+    <task-module 
+        env="{{env}}"
+        acCode="{{query.acCode}}",
+        appId="{{appId}}"
+        taskList="{{taskList}}"
+        onTaskDone="onTaskDone"
+        onSaveRef="onSaveRef"
+    ></task-module>
     <% } %>
-    <% if(model.includes('fy')) { %>
+    <% if(model.includes('rechargePlugin')) { %>
+    <!-- 充值插件  -->
+    <charge-module
+        env="{{env}}"
+        url="alipays://platformapi/startapp?appId=2021003140679313&page=pages/recharge/recharge"
+        zwlArr="{{chargeCode}}"
+    />
+    <% } %>
+    <% if(model.includes('lightFire')) { %>
+    <!-- 灯火广告 -->
+    <view class="denghuo" a:if="{{isFeedsShow==1}}">
+        <feeds
+            spaceCode="ad_tiny_2021003140679313_202209262200041250"
+            onRenderSuccess="onRenderSuccessAD"
+            onRenderFail="onRenderFailAD"
+            onSaveRef="onAdSaveRef"
+        >
+        </feeds>
+    </view>
+    <% } %>
+    <% if(model.includes('yufao')) { %>
     <!-- 收货地址弹窗 -->
     <view class="address-dialog" a:if="{{ dialogAddress }}">
         <view class="address-box">
@@ -90,7 +110,7 @@
     </view>
     <% } %>
 </view>
-<% if(model.includes('gz')) { %>
+<% if(model.includes('lifeFllow')) { %>
 <!-- 获取生活号关注状态 -->
 <life-follow 
     style="display:none;"  
@@ -99,4 +119,22 @@
     a:if="{{showFocus}}"
     sceneId="f6422590e0fb4b44a2e0c2493662b579"
 />
+<% } %>
+<% if(model.includes('revisitGift')) { %>
+<!-- 访问有礼 -->
+<visit-gift a:if="{{uid}}" uid='{{uid}}' env='{{env}}' configMark={{configMark}} />
+<% } %>
+<% if(model.includes('smartService')) { %>
+<!-- 智能客服 -->
+<contact-button 
+    env="{{env}}"
+    tntInstId="QTJAWQCN"
+    scene="SCE01232662"
+    uid="{{uid}}"
+    appId="{{appId}}"
+    channel="插件调试"
+    appName="集集镇"
+    left="640"
+    top="900"
+></contact-button>
 <% } %>

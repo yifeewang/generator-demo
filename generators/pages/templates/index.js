@@ -1,17 +1,11 @@
 import { queryMixins, userAuth } from '/mixins/index';
 import { SUCESS_CODE } from "/common/constance";
-import { reportAdvertisingEvents, handleTuiAItem, qs } from '/utils/tool';
-import {
-    receiveGoods,
-    GET_AC_INFO_ALL,
-    activityDraw,
-    getPrizeList
-} from "/apis/api";
+import { reportAdvertisingEvents, handleTuiAItem, qs, throttle } from '/utils/tool';
 const Alipay = require('/utils/Alipay');
 const Tool = require('/utils/tool');
-const api = Alipay.api;
 const app = getApp();
 const hostConfig = require("/config.js");
+<% if(model.includes('starFire')) { %>
 const XH_BANNER_ZWM = {
     dev: {
         center: "RBKIV3BNLSVJ"
@@ -23,26 +17,25 @@ const XH_BANNER_ZWM = {
         center: "BHXEQLLWMG7Z"
     },
 };
+<% } %>
 
 Page({
     mixins: [queryMixins, userAuth],
-    notAutoUserInfo: true, //不自动调用登录信息接口
+    notAutoUserInfo: true, //不自动调用用户信息接口
     data: {
         query: {},
         firstInPage: true,
-        // 登录
-        loginStatus: false,
-        phoneNum: '',
-        uid: '',
-        queryLoginStatusToShowLoginDialog: false, // 根据登录状态显示登录弹窗
-        // banner
-        showXHBanner: false, // 是否显示星火banner
-        xhBannerList: [], // 星火banner
-        normalBannerList: [], // 普通banner
-        areaCodes: '011401', // 区域码
+        box_bg: '', // 弹窗后页面固定
+        turnUrl: '',
+        <% if(model.includes('starFire')) { %>
+        xhBannerZWM: XH_BANNER_ZWM, //星火banner展位码
+        <% } %>
+        <% if(model.includes('lifeFllow')) { %>
         // 生活号
         showFocus: true, //是否显示关注生活号按钮
         checkFollow: true, // 通过组件获取关注状态。
+        <% } %>
+        <% if(model.includes('yufao')) { %>
         // 扶摇
         prizeList: [], // 奖品列表
         dialogAddress: false, // 是否弹出收货地址弹窗
@@ -52,31 +45,63 @@ Page({
             phoneValue: '',
             addressValue: '',
         }, // 实物奖品用户信息
-        box_bg: '', // 弹窗后页面固定
-        turnUrl: '',
+        <% } %>
+        <% if(model.includes('lightFire')) { %>
+        isFeedsShow: 0, //开关控制是否展示猜你喜欢
+        <% } %>
+        <% if(model.includes('revisitGift')) { %>
+        configMark: '', // 访问有礼 configMark
+        <% } %>
+        <% if(model.includes('rechargePlugin')) { %>
+        chargeCode: '', // 展位码
+        <% } %>
     },
     async onLoad (query) {
         const encodeQuery = qs.getFilterQuery(this.data.query);
         this.setData({
-            turnUrl: `${this.data.turnUrl}&query=${encodeQuery}`
+            turnUrl: `${this.data.turnUrl}&query=${encodeQuery}`,
+            env: hostConfig.hostConfig,
+            appId: app.globalData.appId
         });
         // 1. 需要支付宝授权 获取用户信息
-        this.initQryLoginInfo((userStatus) => {
-            this.initPage(userStatus);
-        });
-        // 2. 不需支付宝授权
-        // app.queryLoginInfo((userStatus) => {
+        // this.initQryLoginInfo((userStatus) => {
         //     this.initPage(userStatus);
         // });
+        // 2. 不需支付宝授权
+        app.queryUserInfo((userStatus) => {
+            this.initPage(userStatus);
+        });
     },
     async onShow (query) {
+        <% if(model.includes('starFire')) { %>
+        //手动查询banner数据
+        this.onSaveRef && this.onSaveRef.resetQryBanner && this.onSaveRef.resetQryBanner();
+        <% } %>
         if (!this.data.firstInPage && this.data.uid) {
-            this.queryXHBanner();
         }
         this.setData({
             firstInPage: false
         });
     },
+    onReady() {
+        <% if(model.includes('taskModule')) { %>
+        this.getTaskList();
+        <% } %>
+    },
+    <% if(model.includes('starFire')) { %>
+    //============================================ 星火banner相关 =================================================
+    onSaveRef(ref) {
+        this.onSaveRef = ref;
+    },
+    //onJumpOut 点击跳转回调
+    onJumpOut(url,item) {
+        //参数 跳转url，当前帧item
+    },
+    //onQueryBannerList 返回查询到的banner数据
+    onQueryBannerList(list) {
+        //参数list bannerList
+    },
+    <% } %>
     initPage(userStatus) {
         //存在uid
         if (userStatus.uid) {
@@ -84,208 +109,11 @@ Page({
                 uid: userStatus.uid,
             });
         }
-
-        if (userStatus.loginStatus === true) { //已经登录
-            this.setData({
-                loginStatus: true,
-                phoneNumber: userStatus.phoneNumLock,
-                phoneNum: userStatus.phoneNum,
-                isLoading: false,
-            });
-        } else { // 未登录
-            this.setData({
-                loginStatus: false, // 用户是否登录
-                queryLoginStatusToShowLoginDialog: true
-            });
-        }
-        // 获取地理位置
-        app.getProvinceInfo(({ provinceCode }) => {
-            this.queryProvinceBanner(provinceCode);
-        });
+        <% if(model.includes('yufao')) { %>
         this.getActivityInfo();
-        this.queryXHBanner();
+        <% } %>
     },
-    //============================================ banner相关 =================================================
-    <% if(model.includes('xh')) { %>
-    //查询星火banner
-    async queryXHBanner() {
-        const { center } = XH_BANNER_ZWM[hostConfig.env];
-        const res = await app.Service.QUERY_STAR_FIRE_CONF({
-            sceneGroupCode: `${center}`,
-            userId: this.data.uid,
-            receiptType: "SERVICE_C_0101",
-            terminal:
-                app.globalData.systemInfo && app.globalData.systemInfo.platform,
-        });
-        const data = Object.keys(res.data || {});
-        if (data.indexOf(center) > -1 && res.data[center].length) {
-            this.setData({
-                xhBannerList: res.data[center],
-                showXHBanner: true,
-            });
-        }
-    },
-    <% } %>
-    // 根据省份和code码获取banner集合
-    async queryProvinceBanner(provinceCode = '') {
-        console.log("省份code:", provinceCode);
-        const { areaCodes } = this.data;
-        try {
-            const getResult = await app.Service.getBannerListProvince({ areaCode: areaCodes, provinceCode });
-            const { code, data: getData = {} } = getResult.data || {};
-
-            if (parseInt(code) != 10000) {
-                return;
-            }
-            console.log("省份code:getData", getData);
-            for (const key in getData) {
-                switch (key) {
-                    case "011401":
-                        //  腰封banner
-                        this.setData({
-                            normalBannerList: getData[key],
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } catch (err) {
-            console.log(1111, err);
-        }
-    },
-    // 点击banner
-    async goPage(e) {
-        const { title, sort, type, url } = e.target.dataset;
-        let spm;
-        // 业务埋点
-        if (type == "topBanner") {
-            spm = "a14.p130.m325.b379";
-        }
-        this.handleburyData({
-            spm,
-            other: {
-                ext_0: sort,
-                ext_1: this.data.showProvince || "未获取到省份",
-                ext_2: title,
-                source_url: url,
-            },
-        });
-        Alipay.turnPage(url);
-    },
-    <% if(model.includes('login')) { %>
-    //============================================ 登录相关 =================================================
-    //免密登录 回调
-    onAutoLogin(result = {}) {
-        if (result.code === "10000") {
-            const data = result.data || {};
-            this.setData({
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumber: data.realPhoneNumber,
-                phoneNumShow: data.realPhoneNumber,
-                isLoading: false,
-            });
-            const userStatus = {
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumLock: data.phoneNumber,
-                uid: data.outUid,
-                loginIn: data.loginIn
-            };
-            this.initPage(userStatus);
-        } else {
-            this.setData({
-                isLoading: false,
-            });
-        }
-    },
-
-    // 使用其他手机号登录
-    async otherLogin(result) {
-        const data = result.data || {};
-
-        if (parseInt(result.code) === 10000) {
-            this.setData({
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumber: data.realPhoneNumber,
-                phoneNumShow: data.realPhoneNumber,
-                uid: data.outUid,
-            });
-            const userStatus = {
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumLock: data.phoneNumber,
-                uid: data.outUid,
-                loginIn: data.loginIn
-            };
-            this.initPage(userStatus);
-        } else {
-            this.setData({
-                loginStatus: false,
-            });
-        }
-    },
-
-    // 登录成功回调
-    zfbLogin(result = {}) {
-        if (+result.code === 10000) {
-            const data = result.data || {};
-
-            this.setData({
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumber: data.realPhoneNumber,
-                phoneNumShow: data.realPhoneNumber,
-                uid: data.outUid,
-            });
-            const userStatus = {
-                loginStatus: true,
-                phoneNum: data.realPhoneNumber,
-                phoneNumLock: data.phoneNumber,
-                uid: data.outUid,
-                loginIn: data.loginIn
-            };
-            this.initPage(userStatus);
-        }
-    },
-
-    // 退出登录回调
-    logout(result = {}) {
-        if (+result.code === 10000) {
-            const data = result.data || {};
-
-            this.setData({
-                loginStatus: false,
-                phoneNum: null,
-                phoneNumber: null,
-                phoneNumShow: null,
-                uid: data.outUid,
-            });
-            const userStatus = {
-                loginStatus: false,
-                phoneNum: null,
-                phoneNumLock: null,
-                uid: data.outUid,
-                loginIn: false
-            };
-            this.initPage(userStatus);
-        }
-    },
-    saveRef(ref) {
-        console.log("login-dialog", ref);
-        this.loginDialogRef = ref;
-        // 手动免密登录
-        const query = this.data.query || {};
-        if (query.loginType === "ctAvoidSecret") {
-            console.log(111);
-        } else {
-            console.log(222);
-        }
-    },
-    <% } %>
-    <% if(model.includes('fy')) { %>
+    <% if(model.includes('yufao')) { %>
     //============================================ 扶摇相关 =================================================
     // 查询活动详情
     async getActivityInfo() {
@@ -298,7 +126,7 @@ Page({
             uid: uid,
         };
         try {
-            const result = await GET_AC_INFO_ALL({ params, acCode }, { useGateWay: true });
+            const result = await app.Service.GET_AC_INFO_ALL({ params, acCode }, { useGateWay: true });
             console.log('=====getActivityInfo-isMember-subStatus=====', result);
             if (result.code === SUCESS_CODE) {
                 // const drawObj = (result.result || {}).isDrawVO || {};
@@ -308,6 +136,11 @@ Page({
                 });
                 const uiContent = JSON.parse(result.result.uiContent || "{}");
                 console.log("uiContent===", uiContent);
+                <% if(model.includes('lightFire')) { %>
+                this.setData({
+                    isFeedsShow: uiContent?.leftIcon?.type || 0, //开关(不显示0、显示1)
+                })
+                <% } %>
                 // 查看奖品
                 this.getPrize();
             }
@@ -323,7 +156,7 @@ Page({
         if (!phoneNum) {
             return;
         }
-        const result = await activityDraw({ acCode, appId, extData: phoneNum });
+        const result = await app.Service.activityDraw({ acCode, appId, extData: phoneNum });
         if (result.code == SUCESS_CODE) {
             const goodsList = result?.result || {};
             const newGoodsList = handleTuiAItem(goodsList) || {};
@@ -428,7 +261,7 @@ Page({
         };
 
         my.showLoading();
-        const result = await receiveGoods({ ...params, acCode }, { useGateWay: true });
+        const result = await app.Service.receiveGoods({ ...params, acCode }, { useGateWay: true });
 
         my.hideLoading();
         if (result.code === SUCESS_CODE) {
@@ -453,7 +286,7 @@ Page({
         try {
             const { appId } = this.data;
             const { acCode } = this.data.query;
-            const result = await getPrizeList({ acCode, appId }, { useGateWay: true });
+            const result = await app.Service.getPrizeList({ acCode, appId }, { useGateWay: true });
             if (result.code === SUCESS_CODE) {
                 if (result.result.length === 0) {
                     return;
@@ -519,50 +352,80 @@ Page({
         return findItem;
     },
     <% } %>
-    <% if(model.includes('dy')) { %>
+    <% if(model.includes('taskModule')) { %>
+    //============================================ 任务插件相关 =================================================
+    async getTaskList() {
+      const { authCode } = await Alipay.getAuthCodeBase();
+      const isSendMessage = false;
+      const params = {
+        env: this.data.env,
+        authCode,
+        appId: app.globalData.appId,
+        acCode: this.data.query.acCode,
+        isSendMessage
+      }
+      const taskRes = await app.Service.QUERY_TASK_STATUS(params)
+      if (taskRes.code === 100000) {
+        // console.log("taskList", taskList);
+        const taskList = taskRes.result || [];
+        if (taskList.length === 0) return;
+        this.setData({
+          taskList: Tool.handleTaskData(taskList)
+        })
+      }
+    },
+    <% } %>
+    <% if(model.includes('lightFire')) { %>
+    //============================================ 灯火插件相关 =================================================
+    onRenderSuccessAD() {
+        console.log("onRenderSuccess");
+    },
+    onRenderFailAD() {
+        console.log("onRenderFail");
+    },
+    onAdSaveRef(ref) {
+        this.feeds = ref;
+    },
+    <% } %>
+    <% if(model.includes('subscribe')) { %>
     //============================================ 订阅相关 =================================================
-    handleSubScribeMessage: Alipay.throttle(function (e) {
+    handleSubScribeMessage: throttle(function (e) {
         const {
             item
         } = e.target.dataset || {};
-        const { subActivityId, fridayLink } = this.data;
-        const { activityId } = this.data.query;
-        const nowPageUrl = `${fridayLink}?activityId=${activityId}`;
-        const _this = this;
         this.handleBuryData({
             spm: 'a14.p250.m719.b1041',
             other: {
                 ext_0: item.awardName
             },
         });
-        // 模板id
-        const templateList = ["310d9b836cd24a57b7d4d7826bf6e76e"];
         // 调用方法，唤起订阅组件
         my.requestSubscribeMessage({
             // 模板id列表，最多3个
-            entityIds: templateList,
+            entityIds: ['310d9b836cd24a57b7d4d7826bf6e76e'],
             success: async (res) => {
                 if (res.behavior == "subscribe") {
                     my.showLoading();
                     const startTime = Tool.formatDate(item.beginTime, "YYYY-MM-dd HH:mm:ss");
-                    const getResult = await Alipay.getUrl(
-                        `${api.prizeReservation}?startTime=${startTime}&keyword1=周五兑福利&keyword2=${item.transferStartTime}&keyword3=${item.awardName}&url=${nowPageUrl}&activityId=${subActivityId}&awardId=${item.awardId}`,
-                        true
-                    );
+                    const res1 = await app.Service.PRIZE_RESERVATION({
+                        startTime,
+                        activityId: item.activityId,
+                        keyword1: '周五兑福利',
+                        keyword2: item.transferStartTime,
+                        keyword3: item.prizeName,
+                        awardId: item.prizeId,
+                        subscriptionType: 1
+                    });
                     my.hideLoading();
-                    const {
-                        code,
-                        data: getData = {},
-                        // msg,
-                    } = getResult.data || {};
-                    if (parseInt(code) === 10000 && getData === true) {
+                    console.log('消息订阅', res1);
+
+                    if (parseInt(res1.code) === 10000) {
                         my.showToast({
                             content: "订阅成功",
                         });
-                        _this.getProduct();
                     } else {
                         my.showToast({
-                            content: res.data.msg,
+                            content: "订阅失败"
                         });
                     }
                 }
@@ -575,7 +438,7 @@ Page({
         });
     }, 1000),
     <% } %>
-    <% if(model.includes('gz')) { %>
+    <% if(model.includes('lifeFllow')) { %>
     //============================================ 关注生活号相关 =================================================
     checkFollowCb(e) {
         // e.detail对象里会有followed字段，可以用来判断关注状态

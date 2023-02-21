@@ -4,12 +4,11 @@ const chalk = require("chalk");
 const yosay = require("yosay");
 const fs = require("fs");
 const path = require("path");
-const shell = require("shelljs");
-const { promisify } = require("util");
-const rename = require("gulp-rename");
 const beautify = require("gulp-beautify");
 const htmlbeautify = require("gulp-html-beautify");
 const gulpif = require("gulp-if");
+
+const { mkdirsSync, filterJsFile, filterHtmlFile } = require("../tool");
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -36,7 +35,9 @@ module.exports = class extends Generator {
     // Have Yeoman greet the user.
     this.log(
       yosay(
-        `Welcome to the GY-CreateApp ${chalk.red("generator-demo")} generator!`
+        `Welcome to the GY-CreatePages ${chalk.red(
+          "generator-gycli"
+        )} generator!`
       )
     );
   }
@@ -45,34 +46,16 @@ module.exports = class extends Generator {
     const prompts = [
       {
         type: "input",
-        name: "appName",
-        message: "please input the appName?",
-        default: "my-app",
-        store: true
-      },
-      {
-        type: "rawlist",
-        name: "primaryPath",
-        choices: [
-          {
-            value: "pages"
-          },
-          {
-            value: "packageList"
-          },
-          {
-            value: "packages"
-          }
-        ],
-        message: "please select the dir path?",
-        default: "packageList",
+        name: "pageName",
+        message: "please input the pageName?",
+        default: "index",
         store: true
       },
       {
         type: "input",
-        name: "secondPath",
-        message: "please input the second dir path?",
-        default: "",
+        name: "pagePath",
+        message: "please input the page path?",
+        default: "miniapp/pages",
         store: true
       },
       {
@@ -80,27 +63,43 @@ module.exports = class extends Generator {
         name: "model",
         choices: [
           {
-            value: "xh"
+            value: "starFire" // 星火
           },
           {
-            value: "fy"
+            value: "revisitGift" // 访问有礼
           },
           {
-            value: "dy"
+            value: "taskModule" // 任务插件
           },
           {
-            value: "gz"
+            value: "smartService" // 智能客服
+          },
+          {
+            value: "yufao" // 扶摇
+          },
+          {
+            value: "lightFire" // 灯火 猜你喜欢
+          },
+          {
+            value: "rechargePlugin" // 充值插件
+          },
+          {
+            value: "subscribe" // 订阅
+          },
+          {
+            value: "lifeFllow" // 关注生活号
           }
         ],
-        message: "please select the model?",
-        default: ["xh", "fy", "dy", "gz"],
-        store: true
-      },
-      {
-        type: "confirm",
-        name: "gz",
-        message: "do u need focus?",
-        default: true,
+        message: "请选择你需要的业务模块?",
+        default: [
+          "starFire",
+          "revisitGift",
+          "yufao",
+          "lightFire",
+          "rechargePlugin",
+          "subscribe",
+          "lifeFllow"
+        ],
         store: true
       }
     ];
@@ -112,35 +111,16 @@ module.exports = class extends Generator {
   }
 
   async writing() {
-    const { appName, primaryPath, secondPath, model } = this.answers;
+    const { pageName, pagePath } = this.answers;
     // This.sourceRoot() : templatesPath
-    const templatesPath = path.join(__dirname, "templates");
-    const destinationPath = this.destinationPath(
-      `./${primaryPath}/${secondPath}`
-    );
+    const templatesPath = this.templatePath();
     const that = this;
     // 判断是否已经存在文件夹
-    const isFileExists = await promisify(fs.exists)(primaryPath);
-    console.log(1111, isFileExists);
-    if (!isFileExists) {
-      // 重新创建
-      await promisify(fs.mkdir)(`${primaryPath}`);
-    }
-
-    const isFileExists2 = await promisify(fs.exists)(
-      primaryPath + "/" + secondPath
-    );
-    console.log(2222, isFileExists2);
-    if (!isFileExists2) {
-      shell.cd(`./${primaryPath}`);
-      // 重新创建
-      await promisify(fs.mkdir)(`${secondPath}`);
-      shell.cd(`../`);
-    }
+    mkdirsSync(pagePath);
 
     fs.readdir(templatesPath, function(err, data) {
       if (err) {
-        return console.log("22222", err);
+        return console.log("err---", err);
       }
 
       // Data为一个数组
@@ -148,43 +128,23 @@ module.exports = class extends Generator {
         console.log(
           111,
           that.templatePath(path.join(templatesPath, item)),
-          that.destinationPath(
-            `./${primaryPath}/${secondPath}/${
-              that.answers.appName
-            }${path.extname(item)}`
-          )
+          that.destinationPath(`./${pagePath}/${pageName}${path.extname(item)}`)
         );
         that.fs.copyTpl(
           that.templatePath(path.join(templatesPath, item)),
           that.destinationPath(
-            `./${primaryPath}/${secondPath}/${
-              that.answers.appName
-            }${path.extname(item)}`
+            `./${pagePath}/${pageName}${path.extname(item)}`
           ),
           that.answers
         );
       });
     });
-    // Beautify 优化文件
-    const conditionJs = function(file) {
-      // { dirname: '.', basename: 'index', extname: '.html' }
-      console.log(222, JSON.stringify(file).includes(".js"));
-      // TODO: 添加业务逻辑
-      return JSON.stringify(file).includes(".js");
-    };
-
-    const conditionHtml = function(file) {
-      // { dirname: '.', basename: 'index', extname: '.html' }
-      console.log(111, JSON.stringify(file).includes(".html"));
-      // TODO: 添加业务逻辑
-      return JSON.stringify(file).includes(".html");
-    };
 
     // 通过流转换输出文件
     // Js beautify
     this.registerTransformStream(
       gulpif(
-        conditionJs,
+        filterJsFile,
         beautify({
           indent_size: 4,
           preserve_newlines: false,
@@ -197,7 +157,7 @@ module.exports = class extends Generator {
     // Html beautify
     this.registerTransformStream(
       gulpif(
-        conditionHtml,
+        filterHtmlFile,
         htmlbeautify({
           indent_size: 4,
           preserve_newlines: false,

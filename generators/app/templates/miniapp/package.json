@@ -69,6 +69,7 @@
         "gulp-json-editor": "^2.5.4",
         "gulp-json5-to-json": "^0.2.1",
         "gulp-less": "^4.0.1",
+        "gulp-load-plugins": "^2.0.8",
         "gulp-plumber": "^1.2.1",
         "gulp-rename": "^1.4.0",
         "gulp-style-aliases": "^1.1.11",

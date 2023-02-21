@@ -2,15 +2,12 @@
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const yosay = require("yosay");
-const fs = require("fs");
-const path = require("path");
 const shell = require("shelljs");
-const { promisify } = require("util");
-const rename = require("gulp-rename");
 const beautify = require("gulp-beautify");
 const htmlbeautify = require("gulp-html-beautify");
 const gulpif = require("gulp-if");
 
+const { filterJsFile, filterHtmlFile } = require("../tool");
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
@@ -20,7 +17,7 @@ module.exports = class extends Generator {
     // 指定参数名称 --coffee
     this.option("coffee");
     // And you can then access it later; e.g.
-    // this.log("iscoffee", this.options.coffee);
+    this.log("iscoffee", this.options);
     // 当前运行脚本上下文环境路径
     // this.log("this.contextRoot", this.contextRoot);
     // 生成文件的目的路径 默认是当前脚本运行上下文路径，可通过destinationRoot进行修改
@@ -36,7 +33,7 @@ module.exports = class extends Generator {
     // Have Yeoman greet the user.
     this.log(
       yosay(
-        `Welcome to the GY-CreateApp ${chalk.red("generator-demo")} generator!`
+        `Welcome to the GY-CreateApp ${chalk.red("generator-gycli")} generator!`
       )
     );
   }
@@ -51,7 +48,13 @@ module.exports = class extends Generator {
             value: "react"
           },
           {
-            value: "vue"
+            value: "react-redux"
+          },
+          {
+            value: "vue2"
+          },
+          {
+            value: "vue3"
           },
           {
             value: "miniapp"
@@ -71,7 +74,7 @@ module.exports = class extends Generator {
       {
         type: "input",
         name: "gitSite",
-        message: "请输入你想连接的git地址?",
+        message: "请输入你创建的git仓库地址?",
         default: "",
         validate: value =>
           value.includes(".git") ? true : `please input correct git site`,
@@ -88,6 +91,12 @@ module.exports = class extends Generator {
             value: "revisitGift" // 访问有礼
           },
           {
+            value: "taskModule" // 任务插件
+          },
+          {
+            value: "smartService" // 智能客服
+          },
+          {
             value: "yufao" // 扶摇
           },
           {
@@ -98,6 +107,9 @@ module.exports = class extends Generator {
           },
           {
             value: "subscribe" // 订阅
+          },
+          {
+            value: "lifeFllow" // 关注生活号
           }
         ],
         message: "请选择你需要的业务模块?",
@@ -107,7 +119,8 @@ module.exports = class extends Generator {
           "yufao",
           "lightFire",
           "rechargePlugin",
-          "subscribe"
+          "subscribe",
+          "lifeFllow"
         ],
         store: true
       }
@@ -128,26 +141,12 @@ module.exports = class extends Generator {
       this.destinationPath(`${appName}`),
       this.answers
     );
-    // Beautify 优化文件
-    const conditionJs = function(file) {
-      // { dirname: '.', basename: 'index', extname: '.html' }
-      console.log(222, JSON.stringify(file).includes(".js"));
-      // TODO: 添加业务逻辑
-      return JSON.stringify(file).includes(".js");
-    };
-
-    const conditionHtml = function(file) {
-      // { dirname: '.', basename: 'index', extname: '.html' }
-      console.log(111, JSON.stringify(file).includes(".html"));
-      // TODO: 添加业务逻辑
-      return JSON.stringify(file).includes(".html");
-    };
 
     // 通过流转换输出文件
     // Js beautify
     this.registerTransformStream(
       gulpif(
-        conditionJs,
+        filterJsFile,
         beautify({
           indent_size: 4,
           preserve_newlines: false,
@@ -160,7 +159,7 @@ module.exports = class extends Generator {
     // Html beautify
     this.registerTransformStream(
       gulpif(
-        conditionHtml,
+        filterHtmlFile,
         htmlbeautify({
           indent_size: 4,
           preserve_newlines: false,

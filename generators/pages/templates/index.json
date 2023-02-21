@@ -1,10 +1,24 @@
 {
     "transparentTitle": "none",
     "pullRefresh": true,
-    "usingComponents":{
-          "login-dialog": "/component/login-dialog/login-dialog",
-          "xinghuo-banner-common-module": "/component/xinghuo-banner-common-module/ad-banner-module",
-          "index-banner-module": "/component/index-banner-module-fuyao/index-banner-module",
-          "subscribe-msg": "plugin://subscribeMsg/subscribe-msg"
-      }
+    "usingComponents": {
+        <% if(model.includes('starFire')) { %>
+        "spark-banner": "plugin://xh-banner/spark-banner",
+        <% } %>
+        <% if(model.includes('taskModule')) { %>
+        "task-module": "plugin://xh-banner/task-module",
+        <% } %>
+        <% if(model.includes('revisitGift')) { %>
+        "visit-gift": "plugin://xh-banner/visit-gift",
+        <% } %>
+        <% if(model.includes('smartService')) { %>
+        "contact-button": "plugin://xh-banner/contact-button",
+        <% } %>
+        <% if(model.includes('rechargePlugin')) { %>
+        "charge-module": "plugin://charge-module/charge-module"<%= model.includes('lightFire') ? ',' : '' %>
+        <% } %>
+        <% if(model.includes('lightFire')) { %>
+        "feeds": "plugin://xlightPlugin/feeds"
+        <% } %>
+    }
 }
