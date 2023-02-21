@@ -1,4 +1,4 @@
-import { queryMixins, userAuth } from '/mixins/index';
+import { queryMixins } from '/mixins/index';
 import { SUCESS_CODE } from "/common/constance";
 import { reportAdvertisingEvents, handleTuiAItem, qs, throttle } from '/utils/tool';
 const Alipay = require('/utils/Alipay');
@@ -20,7 +20,7 @@ const XH_BANNER_ZWM = {
 <% } %>
 
 Page({
-    mixins: [queryMixins, userAuth],
+    mixins: [queryMixins],
     notAutoUserInfo: true, //不自动调用用户信息接口
     data: {
         query: {},
@@ -35,7 +35,7 @@ Page({
         showFocus: true, //是否显示关注生活号按钮
         checkFollow: true, // 通过组件获取关注状态。
         <% } %>
-        <% if(model.includes('yufao')) { %>
+        <% if(model.includes('fuyao')) { %>
         // 扶摇
         prizeList: [], // 奖品列表
         dialogAddress: false, // 是否弹出收货地址弹窗
@@ -109,11 +109,11 @@ Page({
                 uid: userStatus.uid,
             });
         }
-        <% if(model.includes('yufao')) { %>
+        <% if(model.includes('fuyao')) { %>
         this.getActivityInfo();
         <% } %>
     },
-    <% if(model.includes('yufao')) { %>
+    <% if(model.includes('fuyao')) { %>
     //============================================ 扶摇相关 =================================================
     // 查询活动详情
     async getActivityInfo() {

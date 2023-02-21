@@ -1,15 +1,22 @@
 {
-    "generator-gycli": {
-        "promptValues": {
-            "appName": "yifee",
-            "primaryPath": "packages",
-            "secondPath": "hello",
-            "model": ["taskModule", "smartService", "lightFire", "rechargePlugin", "subscribe", "lifeFllow"],
-            "gz": true,
-            "appType": "miniapp",
-            "gitSite": "https://gitlab.19ego.cn/wangyf/test.git",
-            "pageName": "index",
-            "pagePath": "miniapp/packageList"
-        }
+  "generator-gycli": {
+    "promptValues": {
+      "appName": "yifee",
+      "primaryPath": "packages",
+      "secondPath": "hello",
+      "model": [
+        "taskModule",
+        "smartService",
+        "lightFire",
+        "rechargePlugin",
+        "subscribe",
+        "lifeFllow"
+      ],
+      "gz": true,
+      "appType": "miniapp",
+      "gitSite": "https://gitlab.19ego.cn/wangyf/test.git",
+      "pageName": "index",
+      "pagePath": "miniapp/packageList"
     }
+  }
 }

@@ -75,7 +75,7 @@ module.exports = class extends Generator {
             value: "smartService" // 智能客服
           },
           {
-            value: "yufao" // 扶摇
+            value: "fuyao" // 扶摇
           },
           {
             value: "lightFire" // 灯火 猜你喜欢
@@ -94,7 +94,7 @@ module.exports = class extends Generator {
         default: [
           "starFire",
           "revisitGift",
-          "yufao",
+          "fuyao",
           "lightFire",
           "rechargePlugin",
           "subscribe",
