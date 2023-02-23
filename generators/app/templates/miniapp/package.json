@@ -31,7 +31,9 @@
     "lint": "eslint miniapp/**/*.js",
     "fix": "eslint --fix miniapp/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npx husky install"
+    "prepare": "npx husky install",
+    "deploy:test": "node minidev/config.test.js",
+    "deploy:prod": "node minidev/config.prod.js"
   },
   "pre-commit": [],
   "keywords": [],

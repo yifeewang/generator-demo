@@ -1,0 +1,78 @@
+# 任务阶段 没有定义的话 默认式test阶段 名称、个数自定义
+# 从上到下依次执行，如果某个任务失败了，一般情况下不会继续往下执行
+stages:
+    - load # 安装项目依赖
+    - test-build # 测试打包
+    - test-deploy # 测试部署
+    - prod-build # 生产打包
+    - prod-deploy # 生产上传部署
+
+# 缓存
+# 由于下一个任务执行会把上一个任务产物给删掉，比如node_modules
+# 此时cache作用就体现出来了 将自己需要的文件填写进去
+
+cache:
+    paths:
+        - miniapp/node_modules
+        - node_modules
+        - dist
+
+load-job: # 任务名称（名称自定义）
+    stage: load # 上面stages定义的步骤1
+    only: # 限制条件 仅develop、release分支执行job
+        - develop
+        - release
+    script:
+        - npm i -g nrm
+        - nrm use taobao
+        - npm config list
+        - echo "开始 npm install"
+        - npm i # 安装项目依赖
+        - echo "结束 npm install"
+        - cd ./miniapp
+        - echo "安装miniapp目录依赖"
+        - npm i
+
+test-build-job:
+    stage: test-build
+    only:
+        - develop
+    script:
+        - whoami # 显示当前登录的用户名
+        - pwd # 当前工作目录
+        - npm -v # 查看npm版本
+        - npm run build:test # 测试打包命令
+
+test-deploy-job:
+    stage: test-deploy
+    only:
+        - develop
+    script:
+        - pwd
+        - echo "开启授权-二维码✨✨✨"
+        - npm run deploy:test # 测试部署命令
+        - echo "结束授权-二维码✨✨✨"
+
+prod-build-job:
+    stage: prod-build
+    only:
+        - release
+    script:
+        - whoami
+        - pwd
+        - npm -v
+        - echo "开始生产环境打包✨✨✨"
+        - npm run build # 生产部署
+        - echo "结束生产环境打包✨✨✨"
+
+prod-deploy-job:
+    stage: prod-deploy
+    only:
+        - release
+    before_script: # script之前执行
+        - echo "✨✨✨生产环境上传begin"
+    script:
+        - pwd
+        - npm run deploy:prod # 生产打包
+    after_script: # script之后执行
+        - echo "✨✨✨生产环境上传end"

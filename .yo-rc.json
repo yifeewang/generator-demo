@@ -14,7 +14,7 @@
       ],
       "gz": true,
       "appType": "miniapp",
-      "gitSite": "https://gitlab.19ego.cn/wangyf/test.git",
+      "gitSite": ".git",
       "pageName": "index",
       "pagePath": "miniapp/packageList"
     }

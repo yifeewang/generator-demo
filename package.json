@@ -32,12 +32,12 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "shelljs": "^0.8.5",
-    "yeoman-generator": "^3.1.1",
     "gulp-beautify": "^3.0.0",
     "gulp-html-beautify": "^1.0.1",
     "gulp-if": "^3.0.0",
     "gulp-rename": "^2.0.0",
+    "shelljs": "^0.8.5",
+    "yeoman-generator": "^3.1.1",
     "yosay": "^2.0.2"
   },
   "jest": {
