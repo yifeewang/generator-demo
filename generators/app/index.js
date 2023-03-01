@@ -3,8 +3,10 @@ const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const yosay = require("yosay");
 const shell = require("shelljs");
+const fs = require("fs");
 const lintStyle = require("../lintStyle");
 const { appPrompts } = require("../prompts");
+const { mkdirsSync } = require("../tool");
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
@@ -25,6 +27,26 @@ module.exports = class extends Generator {
       hide: true,
       storage: true
     });
+    /**
+     * 可忽视该方法
+     * .开头的文件 copyTpl 无法复制 需要特殊处理
+     * 已通过 globOptions 解决
+     */
+    this.fileTask = () => {
+      const { appName } = this.answers;
+      const tp = this.templatePath(`other/${this.options.project}`);
+      const dp = this.destinationPath(`${appName}`);
+      const files = fs.readdirSync(tp);
+      if (!files) return;
+      files.forEach(file => {
+        const tp1 = `${tp}/${file}`;
+        const dp1 = `${dp}/${file}`;
+        // 递归判断是否已经存在文件夹
+        mkdirsSync(dp);
+        fs.copyFileSync(tp1, dp1);
+      });
+      mkdirsSync(dp);
+    };
   }
 
   /**
@@ -77,7 +99,13 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath(`${this.options.project}`),
       this.destinationPath(`${appName}`),
-      this.answers
+      this.answers,
+      {},
+      {
+        globOptions: {
+          dot: true
+        }
+      }
     );
     // 转换输出文件
     lintStyle(this);
@@ -93,7 +121,7 @@ module.exports = class extends Generator {
     shell.cd(`${this.destinationRoot()}/${appName}`);
     this.log(`${chalk.yellow("正在连接git仓库===")}`);
     shell.exec(`
-        git init && 
+        git init &&
         git remote add origin ${gitSite} &&
         git add . &&
         git commit -m 'feat(创建项目): 初始化项目' --no-verify &&
@@ -126,12 +154,4 @@ module.exports = class extends Generator {
       shell.cd(`../`);
     }
   }
-
-  //   Method1() {
-  //     this.log("method 1 just ran");
-  //   }
-
-  //   _private_method2() {
-  //     this.log("method 2 just ran");
-  //   }
 };

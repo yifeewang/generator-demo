@@ -19,6 +19,11 @@ const getFileExtName = file => {
   return path.extname(fileDatas.history[0] || "");
 };
 
+const getFileBaseName = file => {
+  const fileDatas = JSON.parse(JSON.stringify(file));
+  return path.basename(fileDatas.history[0] || "");
+};
+
 // Beautify 优化文件
 const filterJsFile = function(file) {
   return getFileExtName(file) === ".js" || getFileExtName(file) === ".json";
@@ -28,8 +33,13 @@ const filterHtmlFile = function(file) {
   return getFileExtName(file) === ".html";
 };
 
+const filterSpecialFile = function(file) {
+  return getFileBaseName(file).startsWith("_");
+};
+
 module.exports = {
   mkdirsSync,
   filterJsFile,
-  filterHtmlFile
+  filterHtmlFile,
+  filterSpecialFile
 };

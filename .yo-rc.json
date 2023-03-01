@@ -16,7 +16,8 @@
       "appType": "miniapp",
       "gitSite": ".git",
       "pageName": "index",
-      "pagePath": "miniapp/packageList"
+      "pagePath": "miniapp/packageList",
+      "appid": "2018121962599426"
     }
   }
 }
