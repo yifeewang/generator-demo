@@ -1,7 +1,7 @@
 const beautify = require("gulp-beautify");
 const htmlbeautify = require("gulp-html-beautify");
 const gulpif = require("gulp-if");
-const { filterJsFile, filterHtmlFile } = require("../tool");
+const { filterJsFile, filterHtmlFile } = require("./tool");
 
 module.exports = ctx => {
   // 通过流转换输出文件

@@ -1,0 +1,9 @@
+.tea/
+.idea
+dist/
+libs/
+node_modules/
+**/*.sjs
+miniapp/node_modules/
+miniapp/config.js
+# miniapp/utils/Alipay.js

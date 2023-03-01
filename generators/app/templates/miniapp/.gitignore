@@ -1,0 +1,13 @@
+#####
+.tea/
+.idea
+.project
+*/.DS_Store
+dist
+node_modules
+debug.log
+.DS_Store
+/.DS_Store
+miniapp/config.js
+miniapp/packageList/.DS_Store
+.mini-ide

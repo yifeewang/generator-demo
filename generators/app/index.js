@@ -8,14 +8,43 @@ const { appPrompts } = require("../prompts");
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-    // This makes `appname` a required argument.
-    // 设置参数 this.options.appname获取
-    // this.argument("appname", { type: String, required: true });
-    // 指定参数名称 --coffee
-    this.option("coffee");
-    this.log("iscoffee", this.options);
+    /**
+     * @params project
+     * @type {string}
+     * miniapp
+     * react
+     * react-redux
+     * vue2
+     * vue3
+     */
+    this.option("project", {
+      type: String,
+      description: "project name",
+      default: "miniapp",
+      alias: "p",
+      hide: true,
+      storage: true
+    });
   }
 
+  /**
+   * Help
+   * @returns help message
+   */
+  help() {
+    return `
+    Usage:
+        yo gycli [options] | yo gycli:pages [options]
+    Options:
+       -p   --project        # includes miniapp react react-redux vue2 vue3
+       --help           # Print the generator's options and usage
+       --version        # Print the generator's version
+    `;
+  }
+
+  /**
+   * Initializing
+   */
   initializing() {
     // Have Yeoman greet the user.
     this.log(
@@ -25,8 +54,12 @@ module.exports = class extends Generator {
     );
   }
 
+  /**
+   * Prompting with user actions
+   * @returns promise
+   */
   prompting() {
-    const prompts = appPrompts();
+    const prompts = appPrompts(this.options.project);
 
     return this.prompt(prompts).then(answers => {
       // To access props later use this.props.someAnswer;
@@ -35,11 +68,14 @@ module.exports = class extends Generator {
     });
   }
 
+  /**
+   * Fs writing
+   * copy template files to destination path
+   */
   async writing() {
-    const { appName, appType } = this.answers;
-    // This.sourceRoot() : templatesPath
+    const { appName } = this.answers;
     this.fs.copyTpl(
-      this.templatePath(`${appType}`),
+      this.templatePath(`${this.options.project}`),
       this.destinationPath(`${appName}`),
       this.answers
     );
@@ -47,26 +83,46 @@ module.exports = class extends Generator {
     lintStyle(this);
   }
 
+  /**
+   * End
+   * use shell to run commands
+   * to link git ant install npm modules
+   */
   end() {
-    const { appName, appType, gitSite } = this.answers;
+    const { appName, gitSite } = this.answers;
     shell.cd(`${this.destinationRoot()}/${appName}`);
     this.log(`${chalk.yellow("正在连接git仓库===")}`);
     shell.exec(`
         git init && 
         git remote add origin ${gitSite} &&
         git add . &&
-        git commit . &&
+        git commit -m 'feat(创建项目): 初始化项目' --no-verify &&
         git push -u origin master
     `);
     this.log(`${chalk.green("仓库已连接 🌟🌟🌟")}`);
     this.log(`${chalk.blue("开始安装依赖===")}`);
+    if (!shell.which("nrm")) {
+      shell.exec(`
+            npm install nrm -g &&
+            nrm use taobao
+        `);
+    }
+
     shell.exec("npm install");
     this.log(`${chalk.green("依赖安装完毕 🌟🌟🌟")}`);
-    if (appType === "miniapp") {
+    if (this.options.project === "miniapp") {
       shell.cd(`./miniapp`);
       this.log(`${chalk.blue("开始安装miniapp依赖===")}`);
       shell.exec("npm install");
       this.log(`${chalk.green("miniapp依赖安装完毕 🌟🌟🌟")}`);
+      shell.cd(`../`);
+      this.log(`${chalk.blue("开始构建dist===")}`);
+      shell.exec("npm run build:test");
+      this.log(`${chalk.green("dist构建完毕 🌟🌟🌟")}`);
+      shell.cd(`./dist`);
+      this.log(`${chalk.blue("开始安装dist依赖===")}`);
+      shell.exec("npm install");
+      this.log(`${chalk.green("dist依赖安装完毕 🌟🌟🌟")}`);
       shell.cd(`../`);
     }
   }

@@ -14,7 +14,7 @@ App({
     Service: Service,
     alipayUtils: alipayUtils,
     globalData: {
-        appId: "2018121962599426",
+        appId: "<%= appid %>",
         apmbA: "",
         acCode: "", //测试 ac290e8b6c3f334916 生产 acfc145bd037f24733
         systemInfo: null,
