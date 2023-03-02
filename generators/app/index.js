@@ -95,7 +95,7 @@ module.exports = class extends Generator {
    * copy template files to destination path
    */
   async writing() {
-    const { appName } = this.answers;
+    const { appName, minidev } = this.answers;
     this.fs.copyTpl(
       this.templatePath(`${this.options.project}`),
       this.destinationPath(`${appName}`),
@@ -103,7 +103,13 @@ module.exports = class extends Generator {
       {},
       {
         globOptions: {
-          dot: true
+          dot: true,
+          ignore: minidev
+            ? []
+            : [
+                `${this.templatePath(`${this.options.project}`)}/minidev/**/*`,
+                `${this.templatePath(`${this.options.project}`)}/.gitlab-ci.yml`
+              ]
         }
       }
     );

@@ -14,21 +14,21 @@ module.exports = (async function () {
 
         params.at = {
             "atMobiles": [
-                '15727168217', // 文缘
+                '<%= testPhone %>', // 文缘
             ]
         };
         params.text = {
-            'content': '@15727168217 生产-赚小钱钱-上传成功'
+            'content': '@<%= testPhone %> 生产-赚小钱钱-上传成功'
         };
     } catch (error) {
         console.error(error);
         params.at = {
             "atMobiles": [
-                "13642354445", // wyf
+                "<%= devPhone %>", // wyf
             ]
         };
         params.text = {
-            'content': `@13642354445 \n 生产-赚小钱钱-上传失败：${error && error.msg}`
+            'content': `@<%= devPhone %> \n 生产-赚小钱钱-上传失败：${error && error.msg}`
         };
     } finally {
         const ding = new Ding();

@@ -19,7 +19,7 @@ module.exports = (async function () {
         s1 = {
             "at": {
                 "atMobiles": [
-                    '15727168217', //  文缘
+                    '<%= testPhone %>', //  文缘
                 ]
             }
         };
@@ -27,7 +27,7 @@ module.exports = (async function () {
         s2 = {
             "markdown": {
                 "title": "新功能来临，测试大佬们请速速验证验证，二维码来也",
-                "text": `@15727168217 \n ![screenshot](${qrcodeUrl})`
+                "text": `@<%= testPhone %> \n ![screenshot](${qrcodeUrl})`
             }
         };
     } catch (error) {
@@ -35,14 +35,14 @@ module.exports = (async function () {
         s1 = {
             "at": {
                 "atMobiles": [
-                    "13642354445", // wyf
+                    "<%= devPhone %>", // wyf
                 ]
             }
         };
         s2 = {
             "markdown": {
                 "title": "生成二维码失败",
-                "text": `@13642354445 \n **生成二维码失败** \n > 问题原因：**${error && error.msg}**`
+                "text": `@<%= devPhone %> \n **生成二维码失败** \n > 问题原因：**${error && error.msg}**`
             }
         };
     } finally {

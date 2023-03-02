@@ -1,23 +1,17 @@
 {
-  "generator-gycli": {
-    "promptValues": {
-      "appName": "yifee",
-      "primaryPath": "packages",
-      "secondPath": "hello",
-      "model": [
-        "taskModule",
-        "smartService",
-        "lightFire",
-        "rechargePlugin",
-        "subscribe",
-        "lifeFllow"
-      ],
-      "gz": true,
-      "appType": "miniapp",
-      "gitSite": ".git",
-      "pageName": "index",
-      "pagePath": "miniapp/packageList",
-      "appid": "2018121962599426"
+    "generator-gycli": {
+        "promptValues": {
+            "appName": "yifee",
+            "primaryPath": "packages",
+            "secondPath": "hello",
+            "model": ["taskModule", "smartService", "lightFire", "rechargePlugin", "subscribe", "lifeFllow"],
+            "gz": true,
+            "appType": "miniapp",
+            "gitSite": ".git",
+            "pageName": "index",
+            "pagePath": "miniapp/packageList",
+            "appid": "2018121962599426",
+            "minidev": false
+        }
     }
-  }
 }

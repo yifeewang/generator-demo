@@ -1,5 +1,5 @@
 # generator-gycli [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> my-demo
+> generator-gycli
 
 ## Installation
 
