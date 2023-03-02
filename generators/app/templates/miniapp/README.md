@@ -11,6 +11,9 @@ yarn
 cd src
 yarn
 ````
+
+## 注意：
+app.js 里面 globalData里面acCode仅供demo使用，需要手动替换
 > 如果上传小程序时遇到Packed fail. "errorMessage": "使用tnpm安装依赖可能导致上传时构建失败，请使用 \"tnpm i --by=yarn\" 安装依赖"。可以用yarn安装mini-ali-ui不要用npm install。
 > 现在改成在dist目录用小程序工具安装依赖，就不用再src目录安装了，也不会复制到dist。同时dist路径清空时忽略node_modules目录。
 ## 运行

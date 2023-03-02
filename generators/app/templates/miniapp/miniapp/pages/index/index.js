@@ -8,13 +8,32 @@ const hostConfig = require("/config.js");
 <% if(model.includes('starFire')) { %>
 const XH_BANNER_ZWM = {
     dev: {
-        center: "RBKIV3BNLSVJ"
+        center: "JJLWICHHFMEO"
     },
     test: {
-        center: "RBKIV3BNLSVJ"
+        center: "JJLWICHHFMEO"
     },
     prod: {
-        center: "BHXEQLLWMG7Z"
+        center: "L9DWGUTTR9SV"
+    },
+};
+<% } %>
+<% if(model.includes('rechargePlugin')) { %>
+const CHARGE_CODES = {
+    dev: {
+        CHARGE_CODE1: "",
+        CHARGE_CODE2: "",
+        CHARGE_CODE3: "",
+    },
+    test: {
+        CHARGE_CODE1: "LUOH4E1LLURB",
+        CHARGE_CODE2: "ATVPWWEU0VEP",
+        CHARGE_CODE3: "GCIQJ60AFYVD",
+    },
+    prod: {
+        CHARGE_CODE1: "OZVGM6IRLGBA", //充值首页
+        CHARGE_CODE2: "OZILUXBW8YZJ", //充值记录页
+        CHARGE_CODE3: "CDL3JY4QSFJV", //领券中心页
     },
 };
 <% } %>
@@ -28,7 +47,7 @@ Page({
         box_bg: '', // 弹窗后页面固定
         turnUrl: '',
         <% if(model.includes('starFire')) { %>
-        xhBannerZWM: XH_BANNER_ZWM, //星火banner展位码
+        xhBannerZWM: `${XH_BANNER_ZWM[hostConfig.env].center}`, //星火banner展位码
         <% } %>
         <% if(model.includes('lifeFllow')) { %>
         // 生活号
@@ -50,10 +69,12 @@ Page({
         isFeedsShow: 0, //开关控制是否展示猜你喜欢
         <% } %>
         <% if(model.includes('revisitGift')) { %>
-        configMark: '', // 访问有礼 configMark
+        configMark: 'dttzxq', // 访问有礼 configMark
         <% } %>
         <% if(model.includes('rechargePlugin')) { %>
-        chargeCode: '', // 展位码
+        chargeCode: `${CHARGE_CODES[hostConfig.env].CHARGE_CODE1},${
+            CHARGE_CODES[hostConfig.env].CHARGE_CODE2
+        },${CHARGE_CODES[hostConfig.env].CHARGE_CODE3}`,
         <% } %>
     },
     async onLoad (query) {

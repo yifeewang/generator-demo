@@ -16,7 +16,7 @@ App({
     globalData: {
         appId: "<%= appid %>",
         apmbA: "",
-        acCode: "", //测试 ac290e8b6c3f334916 生产 acfc145bd037f24733
+        acCode: "acfc145bd037f24733", //测试 ac290e8b6c3f334916 生产 acfc145bd037f24733
         systemInfo: null,
         networkType: "",
         webViewUrl: null, //  webview页面链接
@@ -77,13 +77,11 @@ App({
     },
     //获取用户uid
     async queryUserInfo(callback) {
-        const { appId, query } = this.globalData;
-        const { acCode } = query || {};
+        const { appId, acCode } = this.globalData;
         const result = await Service.QUERY_USER_INFO({ acCode, appId });
         console.log("=====queryUserInfo=====", result);
         if (result.code === SUCESS_CODE) {
             this.globalData.uid = result.result;
-            // this.globalData.uid = 2088232992437892;
         }
         const userStatus = {
             uid: result?.result || ""

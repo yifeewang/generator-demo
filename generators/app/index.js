@@ -84,8 +84,6 @@ module.exports = class extends Generator {
     const prompts = appPrompts(this.options.project);
 
     return this.prompt(prompts).then(answers => {
-      // To access props later use this.props.someAnswer;
-      console.log("answers", answers);
       this.answers = answers;
     });
   }
@@ -151,7 +149,7 @@ module.exports = class extends Generator {
       this.log(`${chalk.green("miniapp依赖安装完毕 🌟🌟🌟")}`);
       shell.cd(`../`);
       this.log(`${chalk.blue("开始构建dist===")}`);
-      shell.exec("npm run build:test");
+      shell.exec("npm run build:prod");
       this.log(`${chalk.green("dist构建完毕 🌟🌟🌟")}`);
       shell.cd(`./dist`);
       this.log(`${chalk.blue("开始安装dist依赖===")}`);
