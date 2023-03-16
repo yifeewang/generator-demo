@@ -5,7 +5,7 @@ const Alipay = require('/utils/Alipay');
 const Tool = require('/utils/tool');
 const app = getApp();
 const hostConfig = require("/config.js");
-<% if(model.includes('starFire')) { %>
+<% if(model.includes('sparkBanner')) { %>
 const XH_BANNER_ZWM = {
     dev: {
         center: "JJLWICHHFMEO"
@@ -18,7 +18,7 @@ const XH_BANNER_ZWM = {
     },
 };
 <% } %>
-<% if(model.includes('rechargePlugin')) { %>
+<% if(model.includes('chargePlugin')) { %>
 const CHARGE_CODES = {
     dev: {
         CHARGE_CODE1: "",
@@ -46,7 +46,10 @@ Page({
         firstInPage: true,
         box_bg: '', // 弹窗后页面固定
         turnUrl: '',
-        <% if(model.includes('starFire')) { %>
+        <% if(model.includes('subscribe')) { %>
+        subStatus: false,
+        <% } %>
+        <% if(model.includes('sparkBanner')) { %>
         xhBannerZWM: `${XH_BANNER_ZWM[hostConfig.env].center}`, //星火banner展位码
         <% } %>
         <% if(model.includes('lifeFllow')) { %>
@@ -54,7 +57,7 @@ Page({
         showFocus: true, //是否显示关注生活号按钮
         checkFollow: true, // 通过组件获取关注状态。
         <% } %>
-        <% if(model.includes('fuyao')) { %>
+        <% if(model.includes('fuyao-draw')) { %>
         // 扶摇
         prizeList: [], // 奖品列表
         dialogAddress: false, // 是否弹出收货地址弹窗
@@ -65,13 +68,16 @@ Page({
             addressValue: '',
         }, // 实物奖品用户信息
         <% } %>
-        <% if(model.includes('lightFire')) { %>
+        <% if(model.includes('feeds')) { %>
         isFeedsShow: 0, //开关控制是否展示猜你喜欢
         <% } %>
-        <% if(model.includes('revisitGift')) { %>
+        <% if(model.includes('visitGift')) { %>
         configMark: 'dttzxq', // 访问有礼 configMark
         <% } %>
-        <% if(model.includes('rechargePlugin')) { %>
+        <% if(model.includes('taskPlugin')) { %>
+        unionChannel: '',
+        <% } %>
+        <% if(model.includes('chargePlugin')) { %>
         chargeCode: `${CHARGE_CODES[hostConfig.env].CHARGE_CODE1},${
             CHARGE_CODES[hostConfig.env].CHARGE_CODE2
         },${CHARGE_CODES[hostConfig.env].CHARGE_CODE3}`,
@@ -94,9 +100,13 @@ Page({
         });
     },
     async onShow (query) {
-        <% if(model.includes('starFire')) { %>
+        <% if(model.includes('sparkBanner')) { %>
         //手动查询banner数据
-        this.onSaveRef && this.onSaveRef.resetQryBanner && this.onSaveRef.resetQryBanner();
+        this.xhRef && this.xhRef.resetQryBanner && this.xhRef.resetQryBanner();
+        <% } %>
+        <% if(model.includes('taskPlugin')) { %>
+        //查询任务完成状态
+        this.taskSaveRef && this.taskSaveRef.checkTaskIsDone && this.taskSaveRef.checkTaskIsDone();
         <% } %>
         if (!this.data.firstInPage && this.data.uid) {
         }
@@ -104,15 +114,10 @@ Page({
             firstInPage: false
         });
     },
-    onReady() {
-        <% if(model.includes('taskModule')) { %>
-        this.getTaskList();
-        <% } %>
-    },
-    <% if(model.includes('starFire')) { %>
+    <% if(model.includes('sparkBanner')) { %>
     //============================================ 星火banner相关 =================================================
-    onSaveRef(ref) {
-        this.onSaveRef = ref;
+    onXhSaveRef(ref) {
+        this.xhRef = ref;
     },
     //onJumpOut 点击跳转回调
     onJumpOut(url,item) {
@@ -130,11 +135,8 @@ Page({
                 uid: userStatus.uid,
             });
         }
-        <% if(model.includes('fuyao')) { %>
         this.getActivityInfo();
-        <% } %>
     },
-    <% if(model.includes('fuyao')) { %>
     //============================================ 扶摇相关 =================================================
     // 查询活动详情
     async getActivityInfo() {
@@ -157,18 +159,21 @@ Page({
                 });
                 const uiContent = JSON.parse(result.result.uiContent || "{}");
                 console.log("uiContent===", uiContent);
-                <% if(model.includes('lightFire')) { %>
+                <% if(model.includes('feeds')) { %>
                 this.setData({
                     isFeedsShow: uiContent?.leftIcon?.type || 0, //开关(不显示0、显示1)
                 })
                 <% } %>
-                // 查看奖品
-                this.getPrize();
+                <% if(model.includes('fuyao-draw')) { %>
+                    // 查看奖品
+                    this.getPrize();
+                <% } %>
             }
         } catch (e) {
             console.log('=====getActivityInfo-error=====', e);
         }
     },
+    <% if(model.includes('fuyao-draw')) { %>
     // 开始抽奖领取
     async startDraw() {
         const { appId, phoneNum } = this.data;
@@ -181,14 +186,6 @@ Page({
         if (result.code == SUCESS_CODE) {
             const goodsList = result?.result || {};
             const newGoodsList = handleTuiAItem(goodsList) || {};
-            const unfinishedItem = this.data.taskList.find(item => !item.taskFinishStatus);
-            const isShowUseAndDrawBtns = this.data.drawCount > 1 || unfinishedItem;
-            let showModalBtns;
-            if (newGoodsList.prizeType === 'IN_KIND') {
-                showModalBtns = '3';
-            } else {
-                showModalBtns = isShowUseAndDrawBtns ? '1' : '2';
-            }
             const { briefName } = newGoodsList?.prizeExt2 || {};
             console.log('=====json配置奖品：briefName=====', briefName);
             this.setData({
@@ -205,9 +202,6 @@ Page({
     },
     hideView: function () {
         this.setData({
-            showNoChoose: false,
-            showSuccess: false,
-            showFailSubscribeMessage: false,
             dialogAddress: false, // 实物奖品弹窗
             box_bg: "",
         });
@@ -330,11 +324,6 @@ Page({
         const { item } = e.target.dataset;
         const { isTuiAdevertising, prizeType } = item;
         console.log('======useAndDraw======', item);
-        this.setData({
-            showNoChoose: false,
-            showSuccess: false,
-            showFailSubscribeMessage: false
-        });
         if (prizeType === "IN_KIND") {
             // 实物奖品
             this.setData({
@@ -373,42 +362,45 @@ Page({
         return findItem;
     },
     <% } %>
-    <% if(model.includes('taskModule')) { %>
+    <% if(model.includes('taskPlugin')) { %>
     //============================================ 任务插件相关 =================================================
-    async getTaskList() {
-      const { authCode } = await Alipay.getAuthCodeBase();
-      const isSendMessage = false;
-      const params = {
-        env: this.data.env,
-        authCode,
-        appId: app.globalData.appId,
-        acCode: this.data.query.acCode,
-        isSendMessage
-      }
-      const taskRes = await app.Service.QUERY_TASK_STATUS(params)
-      if (taskRes.code === 100000) {
-        // console.log("taskList", taskList);
-        const taskList = taskRes.result || [];
-        if (taskList.length === 0) return;
-        this.setData({
-          taskList: Tool.handleTaskData(taskList)
-        })
-      }
+    onTaskSaveRef(ref) {
+        this.taskSaveRef = ref;
+    },
+    onTaskDone({ rewardValue, item }) { // 任务完成后toast或奖励弹窗在这里写
+        // 任务完成
+    },
+    onTaskFail({ msg, item, result }) {
+        // 任务未完成
+        // msg 任务未完成理由说明
+        // item 任务info
+        // result 完成任务接口返回结果
     },
     <% } %>
-    <% if(model.includes('lightFire')) { %>
+    <% if(model.includes('feeds')) { %>
     onRenderSuccessAD() {
         console.log("onRenderSuccess");
     },
     onRenderFailAD() {
         console.log("onRenderFail");
     },
-    onAdSaveRef(ref) {
-        this.feeds = ref;
+    onFeedsSaveRef(ref) {
+        this.feedsRef = ref;
     },
     <% } %>
     <% if(model.includes('subscribe')) { %>
     //============================================ 订阅相关 =================================================
+    async queryMsgSub() {
+        const res = await app.Service.QUERY_MESSAGE_SUB({
+            templateId: this.data.subScribeId,
+            uid: this.data.uid,
+        });
+        if (res?.code == SUCESS_CODE) {
+            this.setData({
+                subStatus: res?.result[0]?.subscriptionType,
+            });
+        }
+    },
     handleSubScribeMessage: throttle(function (e) {
         const {
             item
@@ -440,6 +432,9 @@ Page({
                     console.log('消息订阅', res1);
 
                     if (parseInt(res1.code) === 10000) {
+                        this.setData({
+                            subStatus: true,
+                        });
                         my.showToast({
                             content: "订阅成功",
                         });

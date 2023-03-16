@@ -9,13 +9,13 @@
             version: "*", // 目前只支持设置 * 拉取当前上架最新版本
             provider: "2021003132621266", // 固定值，插件 ID
         },
-        <% if(model.includes('lightFire')) { %>
+        <% if(model.includes('feeds')) { %>
         xlightPlugin: {
             version: "*",
             provider: "2021001192652032",
         },
         <% } %>
-        <% if(model.includes('rechargePlugin')) { %>
+        <% if(model.includes('chargePlugin')) { %>
         "charge-module": {
             version: "*",
             provider: "2021003145669179",

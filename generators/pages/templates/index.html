@@ -18,7 +18,7 @@
         </button>
     </view>
     <% } %>
-    <% if(model.includes('starFire')) { %>
+    <% if(model.includes('sparkBanner')) { %>
     <!-- 星火banner => 轮播  -->
     <view class="index-hx-banner" a:if="{{uid}}">
         <spark-banner
@@ -30,22 +30,26 @@
             xhchannel="{{query.xhchannel}}" 
             xhBannerZWM="{{xhBannerZWM}}"
             onJumpOut="onJumpOut"
-            onSaveRef="onSaveRef"
+            onSaveRef="onXhSaveRef"
         ></spark-banner>
     </view>
     <% } %>
-    <% if(model.includes('taskModule')) { %>
+    <% if(model.includes('taskPlugin')) { %>
     <!-- 任务插件  -->
-    <task-module 
-        env="{{env}}"
-        acCode="{{query.acCode}}",
-        appId="{{appId}}"
-        taskList="{{taskList}}"
-        onTaskDone="onTaskDone"
-        onSaveRef="onSaveRef"
-    ></task-module>
+    <view>
+        <task-plug-in 
+            env="{{env}}"
+            acCode="{{query.acCode}}",
+            appId="{{appId}}"
+            uid="{{uid}}"
+            spmValue="aST20221017174604758.p10.m1.b1"
+            unionChannel="{{unionChannel}}"
+            onTaskDone="onTaskDone"
+            onSaveRef="onTaskSaveRef"
+        />
+    </view>
     <% } %>
-    <% if(model.includes('rechargePlugin')) { %>
+    <% if(model.includes('chargePlugin')) { %>
     <!-- 充值插件  -->
     <charge-module
         env="{{env}}"
@@ -53,19 +57,19 @@
         zwlArr="{{chargeCode}}"
     />
     <% } %>
-    <% if(model.includes('lightFire')) { %>
+    <% if(model.includes('feeds')) { %>
     <!-- 灯火广告 -->
     <view class="denghuo" a:if="{{isFeedsShow==1}}">
         <feeds
             spaceCode="ad_tiny_2021003140679313_202209262200041250"
             onRenderSuccess="onRenderSuccessAD"
             onRenderFail="onRenderFailAD"
-            onSaveRef="onAdSaveRef"
+            onSaveRef="onFeedsSaveRef"
         >
         </feeds>
     </view>
     <% } %>
-    <% if(model.includes('fuyao')) { %>
+    <% if(model.includes('fuyao-draw')) { %>
     <!-- 收货地址弹窗 -->
     <view class="address-dialog" a:if="{{ dialogAddress }}">
         <view class="address-box">
@@ -120,7 +124,7 @@
     sceneId="f6422590e0fb4b44a2e0c2493662b579"
 />
 <% } %>
-<% if(model.includes('revisitGift')) { %>
+<% if(model.includes('visitGift')) { %>
 <!-- 访问有礼 -->
 <visit-gift a:if="{{uid}}" uid='{{uid}}' env='{{env}}' configMark={{configMark}} />
 <% } %>

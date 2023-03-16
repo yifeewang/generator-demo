@@ -145,7 +145,8 @@ const image = () => {
         .pipe(dest(OUTPUT_PATH));
 };
 
-const startWatch = () => {
+const startWatch = (cb) => {
+    cb();
     watch(SOURCE_CODE_PATH + '/**/*.tmpl', html);
     watch(SOURCE_CODE_PATH + '/**/*.{html,axml}', html);
     watch(SOURCE_CODE_PATH + '/**/*.{less, acss, css}', style);
@@ -163,7 +164,9 @@ const startWatch = () => {
 
 const main = parallel(html, js, json, sjs, style, image);
 
-const dev = series(env, main, startWatch);
+const dev = series(env, main, startWatch, (cb) => {
+    cb();
+});
 
 const build = series(clean, env, main, (cb) => {
     cb();

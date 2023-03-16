@@ -5,43 +5,35 @@ const commonPrompts = () => {
       name: "model",
       choices: [
         {
-          value: "starFire" // 星火
-        },
-        {
-          value: "revisitGift" // 访问有礼
-        },
-        {
-          value: "taskModule" // 任务插件
-        },
-        {
-          value: "smartService" // 智能客服
-        },
-        {
-          value: "fuyao" // 扶摇
-        },
-        {
-          value: "lightFire" // 灯火 猜你喜欢
-        },
-        {
-          value: "rechargePlugin" // 充值插件
+          value: "sparkBanner" // 星火
         },
         {
           value: "subscribe" // 订阅
+        },
+        {
+          value: "taskPlugin" // 任务插件
+        },
+        {
+          value: "fuyao-draw" // 扶摇抽奖
+        },
+        {
+          value: "visitGift" // 访问有礼
+        },
+        {
+          value: "feeds" // 灯火 猜你喜欢
+        },
+        {
+          value: "chargePlugin" // 充值插件
+        },
+        {
+          value: "smartService" // 智能客服
         },
         {
           value: "lifeFllow" // 关注生活号
         }
       ],
       message: "请选择你需要的业务模块?",
-      default: [
-        "starFire",
-        "revisitGift",
-        "fuyao",
-        "lightFire",
-        "rechargePlugin",
-        "subscribe",
-        "lifeFllow"
-      ],
+      default: ["sparkBanner", "subscribe"],
       store: true
     }
   ];

@@ -5,7 +5,6 @@ const hostConfig = require("/config.js");
 const Services = {
     lock,
     unlock,
-    <% if(model.includes('fuyao')) { %>
     //---------------------------------------------扶摇---------------------------------------------------
     // 查询用户信息
     QUERY_USER_INFO(data = {}, options = {}) {
@@ -272,8 +271,7 @@ const Services = {
             ...options,
         });
     },
-    <% } %>
-    <% if(model.includes('starFire')) { %>
+    <% if(model.includes('sparkBanner')) { %>
     //---------------------------------------------星火---------------------------------------------------
     // 星火点击上报（防疲劳）
     XH_CLICK_LOG(data = {}) {
