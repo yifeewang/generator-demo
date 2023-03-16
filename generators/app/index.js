@@ -143,11 +143,6 @@ module.exports = class extends Generator {
     shell.exec("npm install");
     this.log(`${chalk.green("依赖安装完毕 🌟🌟🌟")}`);
     if (this.options.project === "miniapp") {
-      shell.cd(`./miniapp`);
-      this.log(`${chalk.blue("开始安装miniapp依赖===")}`);
-      shell.exec("npm install");
-      this.log(`${chalk.green("miniapp依赖安装完毕 🌟🌟🌟")}`);
-      shell.cd(`../`);
       this.log(`${chalk.blue("开始构建dist===")}`);
       shell.exec("npm run build:prod");
       this.log(`${chalk.green("dist构建完毕 🌟🌟🌟")}`);
