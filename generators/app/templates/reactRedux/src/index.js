@@ -1,18 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Login from './components/Login.tsx';
-import './utils/rem.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import RouterMap from './routers';
 import './index.less';
+import store from './store'
+import './utils/rem.js'
 
-
-export default function App() {
-  return (
-    <div>
-      <h2>我是gy-react-app</h2>
-      <Login />
-    </div>
-  )
-}
-
-const root = document.getElementById("root");
-ReactDOM.render(<App />, root);
+ReactDOM.render(
+  <React.StrictMode>
+      <Provider store={store}>
+        <RouterMap />
+      </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);

@@ -1,7 +1,7 @@
 import React from "react";
 import style from  "./Login.less";
-import active from "../static/index_active.png";
-import data from "../static/no_data.png";
+import active from "@/static/index_active.png";
+import data from "@/static/no_data.png";
 
 type Props = {};
 

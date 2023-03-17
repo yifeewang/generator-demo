@@ -10,7 +10,7 @@
     "dev:test": "cross-env NODE_ENV=test webpack server --config ./config/webpack.dev.js",
     "dev:prod": "cross-env NODE_ENV=prod webpack server --config ./config/webpack.dev.js",
     "build": "cross-env NODE_ENV=prod webpack --config ./config/webpack.prod.js",
-    "build:dll":"webpack --config ./config/webpack.dll.js",
+    "build:dll": "webpack --config ./config/webpack.dll.js",
     "analyzer": "cross-env NODE_ENV=prod IS_ANALYZER=analyzer webpack --config ./config/webpack.prod.js"
   },
   "homepage": "./",
@@ -46,7 +46,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^7.2.9",
+    "react-router-dom": "^6.9.0",
+    "redux": "^4.2.1"
   },
   "browserslist": [
     ">0.2%",
