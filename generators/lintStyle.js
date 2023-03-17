@@ -10,8 +10,13 @@ module.exports = ctx => {
     gulpif(
       filterJsFile,
       beautify({
+        brace_style: "none,preserve-inline",
+        max_preserve_newlines: 2,
+        unindent_chained_methods: false,
+        break_chained_methods: true,
         indent_size: 4,
         preserve_newlines: false,
+        end_with_newline: true,
         css: {
           indent_size: 4
         }

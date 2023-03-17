@@ -4,7 +4,7 @@
             "appName": "yifee",
             "primaryPath": "packages",
             "secondPath": "hello",
-            "model": ["taskModule", "smartService", "lightFire", "rechargePlugin", "subscribe", "lifeFllow"],
+            "model": ["sparkBanner", "taskPlugin", "smartService", "lifeFllow"],
             "gz": true,
             "appType": "miniapp",
             "gitSite": ".git",
