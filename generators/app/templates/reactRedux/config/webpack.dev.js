@@ -13,7 +13,8 @@ module.exports = merge(common, {
     },
     compress: true,
     host: "localhost",
-    port: "3000"
+    port: "3000",
+	historyApiFallback:true  //缺少该配置，会出现路由访问错误
   },
   plugins: []
 })

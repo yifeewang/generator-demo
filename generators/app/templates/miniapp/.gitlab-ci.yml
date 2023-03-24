@@ -23,15 +23,11 @@ load-job: # 任务名称（名称自定义）
         - develop
         - release
     script:
-        - npm i -g nrm
         - nrm use taobao
         - npm config list
         - echo "开始 npm install"
         - npm i # 安装项目依赖
         - echo "结束 npm install"
-        - cd ./miniapp
-        - echo "安装miniapp目录依赖"
-        - npm i
 
 test-build-job:
     stage: test-build
@@ -42,6 +38,9 @@ test-build-job:
         - pwd # 当前工作目录
         - npm -v # 查看npm版本
         - npm run build:test # 测试打包命令
+        - cd ./dist
+        - echo "安装dist目录依赖"
+        - npm i
 
 test-deploy-job:
     stage: test-deploy

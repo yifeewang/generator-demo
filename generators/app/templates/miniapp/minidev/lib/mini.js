@@ -24,6 +24,7 @@ class Mini {
         let param = {
             appId: appId,
             project: project,
+            ignoreHttpDomainCheck: true
         };
         Object.assign(param, params || {});
 

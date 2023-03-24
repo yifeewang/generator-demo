@@ -71,6 +71,7 @@
     "gulp-style-aliases": "^1.1.11",
     "husky": "^8.0.1",
     "lint-staged": "^8.2.1",
+    "minidev": "^1.7.1-rc.2",
     "postcss-less": "^6.0.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
