@@ -13,8 +13,19 @@ npm install -g generator-gycli
 
 Then generate your new project:
 
+ yo gycli === yo gycli -p miniapp === yo gycli --project miniapp
+
 ```bash
-yo gycli
+yo gycli // 小程序
+//等同于
+yo gycli -p miniapp // 小程序
+
+//也可以是下面这样
+
+yo gycli -p react // react
+
+yo gycli -p vue // vue
+
 ```
 
 未发布则：
