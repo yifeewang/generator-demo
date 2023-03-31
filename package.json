@@ -1,12 +1,12 @@
 {
   "name": "generator-gyc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "gy-cli",
   "homepage": "",
   "author": {
     "name": "gyjx",
     "email": "wanghao@19pay.com.cn",
-    "url": ""
+    "url": "https://gitlab.19ego.cn/largeFrontEndProjects/generator-gycli"
   },
   "files": [
     "generators"
@@ -78,6 +78,6 @@
     "pretest": "eslint .",
     "test": "jest"
   },
-  "repository": "yifeewang/generator-gycli",
+  "repository": "https://gitlab.19ego.cn/largeFrontEndProjects/generator-gycli",
   "license": "MIT"
 }
