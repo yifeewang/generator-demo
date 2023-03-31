@@ -1,30 +1,30 @@
-# generator-gycli [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> generator-gycli
+# generator-gyc [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+> generator-gyc
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-gycli using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-gyc using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 已发布则进行如下步骤：
 ```bash
 npm install -g yo
-npm install -g generator-gycli
+npm install -g generator-gyc
 ```
 
 Then generate your new project:
 
- yo gycli === yo gycli -p miniapp === yo gycli --project miniapp
+ yo gyc === yo gyc -p miniapp === yo gyc --project miniapp
 
 ```bash
-yo gycli // 小程序
+yo gyc // 小程序
 //等同于
-yo gycli -p miniapp // 小程序
+yo gyc -p miniapp // 小程序
 
 //也可以是下面这样
 
-yo gycli -p react // react
+yo gyc -p react // react
 
-yo gycli -p vue // vue
+yo gyc -p vue // vue
 
 ```
 
@@ -37,7 +37,7 @@ npm link
 Then generate your new project:
 
 ```bash
-yo gycli
+yo gyc
 ```
 ## Getting To Know Yeoman
 
@@ -51,9 +51,9 @@ yo gycli
 MIT © [yifeewang]()
 
 
-[npm-image]: https://badge.fury.io/js/generator-gycli.svg
-[npm-url]: https://npmjs.org/package/generator-gycli
-[travis-image]: https://travis-ci.com/yifeewang/generator-gycli.svg?branch=master
-[travis-url]: https://travis-ci.com/yifeewang/generator-gycli
-[daviddm-image]: https://david-dm.org/yifeewang/generator-gycli.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/yifeewang/generator-gycli
+[npm-image]: https://badge.fury.io/js/generator-gyc.svg
+[npm-url]: https://npmjs.org/package/generator-gyc
+[travis-image]: https://travis-ci.com/yifeewang/generator-gyc.svg?branch=master
+[travis-url]: https://travis-ci.com/yifeewang/generator-gyc
+[daviddm-image]: https://david-dm.org/yifeewang/generator-gyc.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/yifeewang/generator-gyc
