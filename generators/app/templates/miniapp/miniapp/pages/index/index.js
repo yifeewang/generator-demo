@@ -48,6 +48,7 @@ Page({
         turnUrl: '',
         <% if(model.includes('subscribe')) { %>
         subStatus: false,
+        subScribeId: '310d9b836cd24a57b7d4d7826bf6e76e',
         <% } %>
         <% if(model.includes('sparkBanner')) { %>
         xhBannerZWM: `${XH_BANNER_ZWM[hostConfig.env].center}`, //星火banner展位码
@@ -75,7 +76,7 @@ Page({
         configMark: 'dttzxq', // 访问有礼 configMark
         <% } %>
         <% if(model.includes('taskPlugin')) { %>
-        unionChannel: '',
+        unionChannel: hostConfig.unionChannel,
         <% } %>
         <% if(model.includes('chargePlugin')) { %>
         chargeCode: `${CHARGE_CODES[hostConfig.env].CHARGE_CODE1},${
@@ -143,13 +144,8 @@ Page({
         const {
             acCode,
         } = this.data.query;
-        const { phoneNum, uid } = this.data;
-        const params = {
-            phone: phoneNum,
-            uid: uid,
-        };
         try {
-            const result = await app.Service.GET_AC_INFO_ALL({ params, acCode }, { useGateWay: true });
+            const result = await app.fyService.common.getActivityInfo({ acCode });
             console.log('=====getActivityInfo-isMember-subStatus=====', result);
             if (result.code === SUCESS_CODE) {
                 // const drawObj = (result.result || {}).isDrawVO || {};
@@ -182,7 +178,7 @@ Page({
         if (!phoneNum) {
             return;
         }
-        const result = await app.Service.activityDraw({ acCode, appId, extData: phoneNum });
+        const result = await app.fyService.draw.draw({ acCode, appId, extData: phoneNum });
         if (result.code == SUCESS_CODE) {
             const goodsList = result?.result || {};
             const newGoodsList = handleTuiAItem(goodsList) || {};
@@ -276,7 +272,7 @@ Page({
         };
 
         my.showLoading();
-        const result = await app.Service.receiveGoods({ ...params, acCode }, { useGateWay: true });
+        const result = await app.fyService.common.addWinnningInfo({ ...params, acCode });
 
         my.hideLoading();
         if (result.code === SUCESS_CODE) {
@@ -299,9 +295,8 @@ Page({
     // 获取奖品
     async getPrize(e) {
         try {
-            const { appId } = this.data;
             const { acCode } = this.data.query;
-            const result = await app.Service.getPrizeList({ acCode, appId }, { useGateWay: true });
+            const result = await app.fyService.common.queryPrizeInfo({ acCode });
             if (result.code === SUCESS_CODE) {
                 if (result.result.length === 0) {
                     return;
@@ -391,7 +386,7 @@ Page({
     <% if(model.includes('subscribe')) { %>
     //============================================ 订阅相关 =================================================
     async queryMsgSub() {
-        const res = await app.Service.QUERY_MESSAGE_SUB({
+        const res = await app.fyService.message.qryMsgSubscription({
             templateId: this.data.subScribeId,
             uid: this.data.uid,
         });
@@ -405,6 +400,8 @@ Page({
         const {
             item
         } = e.target.dataset || {};
+        const { subScribeId } = this.data;
+        const templateList = [subScribeId];
         this.handleBuryData({
             spm: 'a14.p250.m719.b1041',
             other: {
@@ -414,19 +411,13 @@ Page({
         // 调用方法，唤起订阅组件
         my.requestSubscribeMessage({
             // 模板id列表，最多3个
-            entityIds: ['310d9b836cd24a57b7d4d7826bf6e76e'],
+            entityIds: templateList,
             success: async (res) => {
                 if (res.behavior == "subscribe") {
                     my.showLoading();
-                    const startTime = Tool.formatDate(item.beginTime, "YYYY-MM-dd HH:mm:ss");
-                    const res1 = await app.Service.PRIZE_RESERVATION({
-                        startTime,
-                        activityId: item.activityId,
-                        keyword1: '周五兑福利',
-                        keyword2: item.transferStartTime,
-                        keyword3: item.prizeName,
-                        awardId: item.prizeId,
-                        subscriptionType: 1
+                    const res1 = await app.fyService.message.addMsgSubscription({
+                        templateId: subScribeId,
+                        subscriptionType: 1,
                     });
                     my.hideLoading();
                     console.log('消息订阅', res1);

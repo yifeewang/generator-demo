@@ -13,9 +13,7 @@ module.exports = (async function () {
         await Mini.upload('<%= appid %>', './dist', null);
 
         params.at = {
-            "atMobiles": [
-                '<%= testPhone %>', // 文缘
-            ]
+            "atMobiles": ['<%= testPhone %>']
         };
         params.text = {
             'content': '@<%= testPhone %> 生产-赚小钱钱-上传成功'
@@ -23,9 +21,7 @@ module.exports = (async function () {
     } catch (error) {
         console.error(error);
         params.at = {
-            "atMobiles": [
-                "<%= devPhone %>", // wyf
-            ]
+            "atMobiles": ["<%= devPhone %>"]
         };
         params.text = {
             'content': `@<%= devPhone %> \n 生产-赚小钱钱-上传失败：${error && error.msg}`

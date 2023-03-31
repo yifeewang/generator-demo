@@ -53,7 +53,7 @@ const requestInterceptorFuncWrapper = (config) => {
         return Promise.resolve(requestInterceptorFunc(config));
     }
 
-    // 扶摇接口加密
+    // 接口加密
     if (config.encrypt === true && config.data && config.data.params) {
         const app = getApp();
         config.data.params.uid = config.data.params.uid || app.globalData.uid || "";
@@ -68,38 +68,6 @@ const requestInterceptorFuncWrapper = (config) => {
         config_.sign = sign;
         config.data = config_;
         return config;
-    }
-
-    if (config.baseURL === hostConfig.fuyaoUrl || config.baseURL === hostConfig.fuyaoGateWayUrl) {
-        config.headers.business = "ctccmini";
-        // 获取lunaSessionId
-        return getBaseAuthCode()
-            .then(({ authCode, lunaSessionId }) => {
-                const app = getApp();
-                const { acCode } = config.data;
-                const { appId } = app.globalData;
-                const config_data = { authCode, appId, acCode };
-                if (lunaSessionId) {
-                    // 如果存在lunaSessionId 删除authCode
-                    config_data.lunaSessionId = lunaSessionId;
-                    delete config_data.authCode;
-                }
-                if (config.method === 'POST' && config.querAuthCode) {
-                    config.url = config.url + `?authCode=${config_data.authCode}`;
-                    delete config_data.authCode;
-                }
-
-                config.data = {
-                    ...config_data,
-                    ...config.data,
-                };
-                console.log('requestInterceptorFuncWrapper', config);
-                return config;
-            })
-            .catch((err) => {
-                console.log('requestInterceptorFuncWrapper', err);
-                return config;
-            });
     }
 
     // 默认采用AuthCode授权
@@ -254,7 +222,8 @@ const getBurryInstance = {
     // 大数据埋点
     burryData({ uid, channel, spm, other, events, ...params }) {
         const app = getApp();
-        const { apmbA, systemInfo, networkType, app_ver } = app.globalData;
+        const { apmbA, systemInfo, networkType } = app.globalData;
+        const app_ver = app.getAppVersion();
         const { channel: currentChannel, uid: currentUid } = getCurrentPageUrl();
         // 模板消息是内链参数 需要特殊处理
         if (app.globalData.isFirstInPage) {

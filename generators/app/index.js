@@ -140,6 +140,10 @@ module.exports = class extends Generator {
         `);
     }
 
+    if (shell.which("nrm")) {
+      shell.exec("nrm use taobao");
+    }
+
     shell.exec("npm install");
     this.log(`${chalk.green("依赖安装完毕 🌟🌟🌟")}`);
     if (this.options.project === "miniapp") {

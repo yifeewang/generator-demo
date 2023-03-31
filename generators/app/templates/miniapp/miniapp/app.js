@@ -4,17 +4,27 @@ import alipayUtils from "./utils/alipayUtils";
 import { checkVersion } from "./utils/tool";
 import { SUCESS_CODE } from "/common/constance";
 import currency from "currency.js";
+import fyService from "@gyjx/fy-sdk/dist/zfb.js";
+
 require("./mixins/mixins.js");
-const Alipay = require("/utils/Alipay");
+
+const config = require("./config.js");
 const md5 = require("/utils/md5.js");
 const _KEV = "iHATLhQo0zln1508";
 const _IV = "iHATLhQo0zln1508";
+const app_id = "<%= appid %>";
+
+fyService.setStore({
+    appId: app_id,
+    env: config.env,
+});
 
 App({
-    Service: Service,
-    alipayUtils: alipayUtils,
+    Service,
+    fyService,
+    alipayUtils,
     globalData: {
-        appId: "<%= appid %>",
+        appId: app_id,
         apmbA: "",
         acCode: "acfc145bd037f24733", //测试 ac290e8b6c3f334916 生产 acfc145bd037f24733
         systemInfo: null,
@@ -26,7 +36,7 @@ App({
         query: {},
         leftIconType: ''//是否展示猜你喜欢插件,取值uiContent.leftIcon
     },
-    onLaunch(options) {
+    async onLaunch(options) {
         // 锁定请求，等到页面或全局请求userInfo后解锁，确保埋点等自动调用的接口等到拿到uid后再发出
         Service.lock();
         if (!checkVersion()) {
@@ -39,8 +49,9 @@ App({
             });
             return;
         }
-        this.getNetworkType();
-        this.getSystemInfo();
+        await this.getNetworkType();
+        await this.getSystemInfo();
+        this.getAppVersion();
 
         const { query = {}, referrerInfo = {} } = options;
         const channel =
@@ -78,7 +89,10 @@ App({
     //获取用户uid
     async queryUserInfo(callback) {
         const { appId, acCode } = this.globalData;
-        const result = await Service.QUERY_USER_INFO({ acCode, appId });
+        const result = await fyService.common.queryUserInfo({
+            acCode,
+            appId
+        });
         console.log("=====queryUserInfo=====", result);
         if (result.code === SUCESS_CODE) {
             this.globalData.uid = result.result;
@@ -137,6 +151,18 @@ App({
                 !this.globalData.isCallLocation && this.getLocation();
             },
         });
+    },
+    getAppVersion() {
+        if (this.globalData.app_version) {
+            return this.globalData.app_version;
+        }
+        console.log('====getAppVersion====', my.canIUse('getAccountInfoSync'));
+        if (!my.canIUse('getAccountInfoSync')) {
+            return '';
+        }
+        const accountInfo = my.getAccountInfoSync();
+        this.globalData.app_version = accountInfo?.miniProgram?.version;
+        return accountInfo?.miniProgram?.version || '';
     },
     // getLocation
     getLocation() {

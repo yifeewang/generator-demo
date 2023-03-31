@@ -3,7 +3,7 @@ const config = {
     newBuryUrl: "https://spm.iyoudui.com",
     fuyaoUrl: 'https://luna-gateway.iyoudui.com/luna-app',
     xinghuoURL: "https://ingateway-hx.19ego.cn",
-    unionChannel: "767349906649674752", // 任务渠道
+    unionChannel: "836563516168653828", // 任务渠道
     env: "prod",
 };
 module.exports = config;

@@ -18,9 +18,7 @@ module.exports = (async function () {
 
         s1 = {
             "at": {
-                "atMobiles": [
-                    '<%= testPhone %>', //  文缘
-                ]
+                "atMobiles": ['<%= testPhone %>']
             }
         };
 
@@ -34,9 +32,7 @@ module.exports = (async function () {
         console.error(error);
         s1 = {
             "at": {
-                "atMobiles": [
-                    "<%= devPhone %>", // wyf
-                ]
+                "atMobiles": ["<%= devPhone %>"]
             }
         };
         s2 = {

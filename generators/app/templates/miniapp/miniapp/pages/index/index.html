@@ -20,26 +20,25 @@
     <% } %>
     <% if(model.includes('sparkBanner')) { %>
     <!-- 星火banner => 轮播  -->
-    <view class="index-hx-banner" a:if="{{uid}}">
-        <spark-banner
-            width="702"
-            height="168"
-            env="{{env}}"
-            uid="{{uid}}"
-            channel="{{query.channel}}"
-            xhchannel="{{query.xhchannel}}" 
-            xhBannerZWM="{{xhBannerZWM}}"
-            onJumpOut="onJumpOut"
-            onSaveRef="onXhSaveRef"
-        ></spark-banner>
-    </view>
+    <spark-banner
+        a:if="{{uid}}"
+        width="702"
+        height="168"
+        env="{{env}}"
+        uid="{{uid}}"
+        channel="{{query.channel}}"
+        xhchannel="{{query.xhchannel}}" 
+        xhBannerZWM="{{xhBannerZWM}}"
+        onJumpOut="onJumpOut"
+        onSaveRef="onXhSaveRef"
+    ></spark-banner>
     <% } %>
     <% if(model.includes('taskPlugin')) { %>
     <!-- 任务插件  -->
-    <view>
+    <view class="page-task">
         <task-plug-in 
             env="{{env}}"
-            acCode="{{query.acCode}}",
+            acCode="{{query.acCode}}"
             appId="{{appId}}"
             uid="{{uid}}"
             spmValue="aST20221017174604758.p10.m1.b1"

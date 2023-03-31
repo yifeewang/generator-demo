@@ -15,5 +15,7 @@
         "crypto-js": "^4.0.0",
         "currency.js": "^2.0.4"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "@gyjx/fy-sdk": "^1.0.8"
+    }
 }

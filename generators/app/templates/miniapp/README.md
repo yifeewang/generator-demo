@@ -12,10 +12,18 @@ cd src
 yarn
 ````
 
-## 注意：
+## 注意（1）：
+  ◦  域名白名单 包括接口请求，小金盒h5域名（跳转海星规则页）
+  ◦  云码任务渠道 开发测试阶段用
+  ◦  星火展位码（测试、生产两套）
+  ◦  星火banner插件订购、设置联调版本
+  ◦  appId （后端在扶摇配置渠道user/info才可以正常调用）
+  ◦  小程序开发者（ 报支付宝账号给产品）
+  ◦  埋点
+
+## 注意（2）：
 app.js 里面 globalData里面acCode仅供demo使用，需要手动替换
-> 如果上传小程序时遇到Packed fail. "errorMessage": "使用tnpm安装依赖可能导致上传时构建失败，请使用 \"tnpm i --by=yarn\" 安装依赖"。可以用yarn安装mini-ali-ui不要用npm install。
-> 现在改成在dist目录用小程序工具安装依赖，就不用再src目录安装了，也不会复制到dist。同时dist路径清空时忽略node_modules目录。
+
 ## 运行
 ````bash
 # 编译并监听
