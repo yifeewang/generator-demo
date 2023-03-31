@@ -1,11 +1,11 @@
 {
-  "name": "generator-gycli",
-  "version": "0.0.6",
+  "name": "generator-gyc",
+  "version": "0.0.1",
   "description": "gy-cli",
   "homepage": "",
   "author": {
-    "name": "yifeewang",
-    "email": "896678534@qq.com",
+    "name": "gyjx",
+    "email": "wanghao@19pay.com.cn",
     "url": ""
   },
   "files": [
