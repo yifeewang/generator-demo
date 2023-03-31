@@ -1,31 +1,22 @@
-# generator-gyc [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-gyc 
 > generator-gyc
-
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-gyc using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
-
 已发布则进行如下步骤：
+**安装**
 ```bash
 npm install -g yo
 npm install -g generator-gyc
 ```
 
-Then generate your new project:
-
- yo gyc === yo gyc -p miniapp === yo gyc --project miniapp
-
+**使用generator创建项目**
 ```bash
-yo gyc // 小程序
-//等同于
+yo gyc // 默认是小程序
+
+//也可以指定框架
 yo gyc -p miniapp // 小程序
-
-//也可以是下面这样
-
 yo gyc -p react // react
-
 yo gyc -p vue // vue
-
 ```
 
 未发布则：
@@ -39,12 +30,21 @@ Then generate your new project:
 ```bash
 yo gyc
 ```
-## Getting To Know Yeoman
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+
+**notice**:
+>   1.使用cli前 建议先创建好小程序因为需要填写appid
+
+>   2.如果要使用minidev
+
+>       先在钉钉添加机器人，准备好 access_token（token） 和 密钥（SECRET）
+
+>       准备好开发和测试手机号码
+
+>       如果没准备好的话，可以乱填，不过后续就得手动修改了
+
+## Getting To Know Yeoman
+ * [learn more about Yeoman](http://yeoman.io/).
 
 ## License
 
