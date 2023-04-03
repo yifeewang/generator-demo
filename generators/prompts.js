@@ -53,14 +53,14 @@ const appPrompts = project => {
       type: "input",
       name: "appid",
       message: "请输入小程序appid?",
-      default: "appid",
+      default: "2021003181689195",
       store: true
     },
     {
       type: "input",
       name: "gitSite",
       message: "请输入你创建的git仓库地址?",
-      default: "",
+      default: ".git",
       validate: value =>
         value.includes(".git") ? true : `please input correct git site`,
       store: true

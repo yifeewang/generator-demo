@@ -4,6 +4,7 @@ import { getCurrentPageUrl } from '../utils/tool';
 
 const Ajax = require("./AjaxUtil");
 const hostConfig = require("/config.js");
+const plugin = requirePlugin("xh-banner");
 
 // const useMock = true
 const useMock = false;
@@ -220,51 +221,24 @@ const getInstance = {
 
 const getBurryInstance = {
     // 大数据埋点
-    burryData({ uid, channel, spm, other, events, ...params }) {
+    burryData({ channel, spm, ...params }) {
         const app = getApp();
-        const { apmbA, systemInfo, networkType } = app.globalData;
         const app_ver = app.getAppVersion();
-        const { channel: currentChannel, uid: currentUid } = getCurrentPageUrl();
+        const { channel: currentChannel } = getCurrentPageUrl();
         // 模板消息是内链参数 需要特殊处理
         if (app.globalData.isFirstInPage) {
             app.globalData.isFirstInPage = false;
             app.globalData.firstChannel = app.globalData.firstChannel || currentChannel || "self";
         }
-        const newParams = {
+        return plugin.log({ 
             spm_value: spm || params.spm_value, // 兼容之前的写法
+            resource_spm: params.resource_spm || spm || params.spm_value,
+            app_ver: app_ver,
             action: "1",
             channel: app.globalData.firstChannel || "self",
             channel2: currentChannel || channel || "self",
-            resource_spm: spm || params.resource_spm || params.spm_value,
-            tenant_code: "",
-            spm_time: parseInt((new Date()).getTime() / 1000),
-            other: JSON.stringify(other || {}),
-            app_id: apmbA,
-            app_ver: app_ver,
-            mobile: systemInfo?.model, //客户端机型信息
-            browser: systemInfo?.app, // 客户端浏览器信息
-            browser_core: systemInfo?.version, // 浏览器内核
-            device_brand: systemInfo?.brand,
-            device_model: systemInfo?.model,
-            network: networkType, // 网络类型
-            os: systemInfo?.platform, // 操作系统
-            os_version: systemInfo?.system, // 操作系统版本
-            uid: currentUid || app.globalData.uid || uid || app.globalData.alipayUid || '',
-            events: JSON.stringify(events || {}),
-            ...params,
-        };
-        // console.log('burydata', newParams);
-
-        return getInstance.http({
-            baseURL: hostConfig.newBuryUrl,
-            url: "/spm/burydata",
-            method: "POST",
-            headers: {
-                "utrace": app.getUuidv4(),
-            },
-            data: newParams,
-            subQueue: true,
-        });
+            ...params
+         });
     },
 };
 

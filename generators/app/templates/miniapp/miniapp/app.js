@@ -8,6 +8,7 @@ import fyService from "@gyjx/fy-sdk/dist/zfb.js";
 
 require("./mixins/mixins.js");
 
+const plugin = requirePlugin("xh-banner");
 const config = require("./config.js");
 const md5 = require("/utils/md5.js");
 const _KEV = "iHATLhQo0zln1508";
@@ -19,13 +20,12 @@ fyService.setStore({
     env: config.env,
 });
 
+
 App({
-    Service,
     fyService,
     alipayUtils,
     globalData: {
         appId: app_id,
-        apmbA: "",
         acCode: "acfc145bd037f24733", //测试 ac290e8b6c3f334916 生产 acfc145bd037f24733
         systemInfo: null,
         networkType: "",
@@ -49,10 +49,13 @@ App({
             });
             return;
         }
+        // 网络信息
         await this.getNetworkType();
+        // 系统信息
         await this.getSystemInfo();
+        // 小程序版本
         this.getAppVersion();
-
+        // 渠道处理
         const { query = {}, referrerInfo = {} } = options;
         const channel =
             (query || {}).pageSource ||
@@ -100,6 +103,12 @@ App({
         const userStatus = {
             uid: result?.result || ""
         }
+        plugin.init({
+            store: {
+                uid: result?.result || "",
+                // buss_line: '双V',
+            }
+        })
         callback && callback(userStatus);
         Service.unlock();
     },

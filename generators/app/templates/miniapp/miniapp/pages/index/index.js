@@ -497,6 +497,5 @@ Page({
             ...params
         };
         await Alipay.maidian(json);
-        my.hideLoading();
     },
 });

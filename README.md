@@ -19,17 +19,8 @@ yo gyc -p react // react
 yo gyc -p vue // vue
 ```
 
-未发布则：
-```bash
-npm install -g yo
-npm link
-```
-
-Then generate your new project:
-
-```bash
-yo gyc
-```
+**使用sub-generator创建页面**
+yo gyc:pages
 
 
 **notice**:
