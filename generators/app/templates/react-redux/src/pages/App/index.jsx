@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
-import { AppType } from '@infras/shared/types';
-import { sum } from '@infras/shared/utils';
-import {Component as MyComponent} from '@infras/ui/react';
-// import {useSelector, useDispatch} from 'react-redux';
-import {selectedSize}  from '@/store/actions/appActions/appActionCreator'
-import logo from '@/logo.svg';
-import './App.css';
-
-// useSelector useDispatch  navigate 统统在路由层处理传递下来
+import fy from '@gyjx/fy-sdk/dist/index.js'
+import config from '@/services/config'
+import { deleteDisbaled } from '@/store/actions/appActions/appActionCreator'
+import Login from '@/components/Login/Login';
+import logo from '@/static/index_active.png';
+import './App.less';
+// 打开调试帮助
+// fy.debug = true
 
 function Index(props) {
     const {dispatch, navigate, useSelector} = props
@@ -15,9 +14,26 @@ function Index(props) {
         console.log(9999,state)
         return { app: state.app }
     });
+    useEffect(() => {
+        // 初始化海星配置
+        hx.init({
+            onConfig: (config) => {
+                console.log(1111, config)
+                //   store.commit('SET_APP_CONFIG', config.appConfig)
+                //   store.commit('SET_PAGE_CONFIG', config.pageConfig)
+                  dispatch(deleteDisbaled(10))
+                // fy.setStore({
+                //     appId: 'xxx',
+                //       env: config.env, // 指定环境，默认prod
+                //     // h5传uid; 小程序不用，接口会自动获取authCode
+                //     uid: 'xxx',
+                // })
+                // fy.common.getActivityInfo(params, option)
+            }
+        })
+    }, [])
     const toRule = () => {
         navigate('/rules')
-        // selectedSize(state.app.selectedSize + 1, dispatch)
     }
     console.log('index', props)
   return (
@@ -26,22 +42,8 @@ function Index(props) {
         <h2>Create React App</h2>
         <img src={logo} className="App-logo" alt="logo" />
         {state.app.selectedSize}
-        <button onClick={toRule}>dianwo</button>
-        <MyComponent />
-        <p>
-        AppType.Web is {AppType.Web}
-        </p>
-        <p>
-        sum(1, 1) is {sum(1, 1)}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={toRule}>go to rule</button>
+        <Login />
       </header>
     </div>
   );

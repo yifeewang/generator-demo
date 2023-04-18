@@ -1,0 +1,10 @@
+{
+    "globals": {
+        "APP_ENV": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    }
+}
