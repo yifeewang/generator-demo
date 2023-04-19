@@ -1,7 +1,11 @@
-export const DELETE_DISABLED = 'DELETE_DISABLED'
+export const SET_HX_CONFIG = 'SET_HX_CONFIG';
+export const SET_URL_PARAMS = 'SET_URL_PARAMS';
+export const SET_UID = 'SET_UID';
 
 const types = {
-    DELETE_DISABLED,
+    SET_HX_CONFIG,
+    SET_URL_PARAMS,
+    SET_UID
 }
 
 export default types

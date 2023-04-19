@@ -15,7 +15,7 @@ const externalsConfig = {
     "react": "React",
     "react-dom": "ReactDOM",
 }
-console.log(987, process.env.NODE_ENV)
+
 module.exports = {
     entry: path.join(__dirname, "../src/index.js"),
     output: {
