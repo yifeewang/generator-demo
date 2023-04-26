@@ -54,6 +54,19 @@ const requestInterceptorFuncWrapper = (config) => {
         return Promise.resolve(requestInterceptorFunc(config));
     }
 
+    // 星火请求
+    if (config.baseURL === hostConfig.xinghuoURL) {
+        if (config.needNetWork) {
+            const { xhchannel } = getCurrentPageUrl();
+            const systemInfo = await app.getSystemInfo();
+            const network = await app.getNetworkType();
+            config.data.network = network || '';
+            config.data.channel = xhchannel;
+            config.data.receiptType = 'SERVICE_C_0101';
+            config.data.terminal = systemInfo?.platform;
+        }
+    }
+
     // 接口加密
     if (config.encrypt === true && config.data && config.data.params) {
         const app = getApp();

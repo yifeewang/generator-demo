@@ -406,14 +406,19 @@ export const filterArr = (arr, key) => {
         return ss;
     }, []);
 };
-
 export const getCurrentPageUrl = () => {
     const pages = getCurrentPages(); //获取加载的页面
     const currentPage = pages[pages.length - 1] || {}; //获取当前页面的对象
     const url = currentPage.route; //当前页面url
     const channel = currentPage.data?.query?.channel || currentPage.data?.channel || '';
+    const xhchannel = currentPage.data?.query?.xhchannel || channel;
     const uid = currentPage.data?.uid || getApp().globalData?.uid;
-    return { url, channel, uid };
+    return {
+        url,
+        channel,
+        uid,
+        xhchannel
+    };
 };
 
 export const sortByASCII = (obj) => {

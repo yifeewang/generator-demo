@@ -26,6 +26,7 @@ const Services = {
             baseURL: hostConfig.xinghuoURL,
             url: '/gaoyang/rpOnlReceiptGeneralMulitService/dx/1.0/adBill',
             method: 'GET',
+            needNetWork: true,
             data,
             ...options,
         });
