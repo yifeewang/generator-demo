@@ -5,6 +5,7 @@ import { getCurrentPageUrl } from '../utils/tool';
 const Ajax = require("./AjaxUtil");
 const hostConfig = require("/config.js");
 const plugin = requirePlugin("xh-banner");
+const app = getApp();
 
 // const useMock = true
 const useMock = false;
@@ -39,14 +40,13 @@ const sleep = (time = 0) => {
 
 // 埋点 拦截request
 const requestInterceptorFunc = (config) => {
-    const app = getApp();
     if (config.baseURL === hostConfig.newBuryUrl && !config.data.uid) {
         config.data.uid = app.globalData.uid || app.globalData.alipayUid || "";
     }
     return config;
 };
 // 拦截request
-const requestInterceptorFuncWrapper = (config) => {
+const requestInterceptorFuncWrapper = async (config) => {
     console.log("====config==========", config);
 
     // 大数据埋点请求
@@ -69,7 +69,6 @@ const requestInterceptorFuncWrapper = (config) => {
 
     // 接口加密
     if (config.encrypt === true && config.data && config.data.params) {
-        const app = getApp();
         config.data.params.uid = config.data.params.uid || app.globalData.uid || "";
         const { acCode } = config.data;
         console.log("params参数=======", config.data.params);
@@ -108,8 +107,6 @@ const requestInterceptorFuncWrapper = (config) => {
 instance.interceptors.request.use(requestInterceptorFuncWrapper);
 // response 拦截器
 const responseInterceptorFunc = (response = {}, config) => {
-    const app = getApp();
-
     // 扶摇
     if (config.baseURL === hostConfig.fuyaoUrl || config.baseURL === hostConfig.fuyaoGateWayUrl) {
         if (response.code === SUCESS_CODE && response.lunaSessionId) {
@@ -189,7 +186,6 @@ const getBaseAuthCode = () => {
 };
 
 const getUseAuthCode = () => {
-    const app = getApp();
     const useSession = app.globalData.useSession || true;
     return new Promise((resolve, reject) => {
         my.getAuthCode({
@@ -235,7 +231,6 @@ const getInstance = {
 const getBurryInstance = {
     // 大数据埋点
     burryData({ channel, spm, ...params }) {
-        const app = getApp();
         const app_ver = app.getAppVersion();
         const { channel: currentChannel } = getCurrentPageUrl();
         // 模板消息是内链参数 需要特殊处理
