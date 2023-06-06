@@ -1,5 +1,6 @@
 const { src, dest, parallel, series, watch } = require('gulp');
 const loadPlugins = require('gulp-load-plugins');
+const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs');
 const inquirer = require('inquirer');
@@ -23,6 +24,18 @@ function existSync(aPath) {
         return stat.isDirectory() || stat.isFile();
     } catch (e) {
         return false;
+    }
+}
+
+// 递归创建目录 同步方法
+function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+        return true;
+    }
+
+    if (mkdirsSync(path.dirname(dirname))) {
+        fs.mkdirSync(dirname);
+        return true;
     }
 }
 
@@ -88,7 +101,7 @@ const clean = (done) => {
         done();
     }
 };
-// 清空dist
+
 const envs = () => {
     const baseConfig = require(`./configs/${app}/base.js`);
     const envConfig = require(`./configs/${app}/config.${env}.js`);
@@ -98,7 +111,20 @@ const envs = () => {
         .pipe(plugins.rename(function (path) {
             path.extname = '.json';
         }))
-        .pipe(dest(OUTPUT_PATH))
+        .pipe(dest(SOURCE_CODE_PATH));
+};
+
+const appJson = () => {
+    return src(`./configs/${app}/app.json5`)
+        .pipe(plugins.cached('json-cached'))
+        .pipe(
+            plugins.json5ToJson({
+                beautify: true, // default
+            })
+        )
+        .pipe(plugins.rename(function (path) {
+            path.extname = '.json';
+        }))
         .pipe(dest(SOURCE_CODE_PATH));
 };
 
@@ -216,13 +242,8 @@ const image = () => {
 };
 
 const checkDist = (done) => {
-    try {
-        fs.accessSync(OUTPUT_PATH);
-        done();
-    } catch (err) {
-        fs.mkdirSync(OUTPUT_PATH);
-        done();
-    }
+    mkdirsSync(OUTPUT_PATH);
+    done();
 }
 
 const startWatch = (cb) => {
@@ -244,11 +265,11 @@ const startWatch = (cb) => {
 
 const main = parallel(html, js, json, sjs, style, image);
 
-const dev = series(init, clean, envs, checkDist, main, index, startWatch, (cb) => {
+const dev = series(init, clean, envs, appJson, checkDist, main, index, startWatch, (cb) => {
     cb();
 });
 
-const build = series(init, clean, envs, checkDist, main, index, (cb) => {
+const build = series(init, clean, envs, appJson, checkDist, main, index, (cb) => {
     cb();
     const endTime = Date.now();
     console.log(chalk.blue('当前环境是：' + env));

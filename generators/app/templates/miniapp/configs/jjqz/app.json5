@@ -1,7 +1,7 @@
 // json5可以加注释
 {
     pages: [
-        "pages/index/index", // 首页
+        "pages/index/index-jjqz", // 首页
         "pages/webview/webview"
     ],
     plugins: {
