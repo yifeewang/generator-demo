@@ -3,7 +3,7 @@ import alipayUtils from '../utils/alipayUtils';
 import { getCurrentPageUrl } from '../utils/tool';
 
 const Ajax = require("./AjaxUtil");
-const hostConfig = require("/config.js");
+const hostConfig = require("/config.json");
 const plugin = requirePlugin("xh-banner");
 const app = getApp();
 
@@ -61,7 +61,7 @@ const requestInterceptorFuncWrapper = async (config) => {
             const systemInfo = await app.getSystemInfo();
             const network = await app.getNetworkType();
             config.data.network = network || '';
-            config.data.channel = xhchannel;
+            config.data.xhchannel = xhchannel;
             config.data.receiptType = 'SERVICE_C_0101';
             config.data.terminal = systemInfo?.platform;
         }
@@ -239,6 +239,8 @@ const getBurryInstance = {
             app.globalData.firstChannel = app.globalData.firstChannel || currentChannel || "self";
         }
         return plugin.log({ 
+            app_id:  app.globalData.apmbA,
+            env: hostConfig.env,
             spm_value: spm || params.spm_value, // 兼容之前的写法
             resource_spm: params.resource_spm || spm || params.spm_value,
             app_ver: app_ver,

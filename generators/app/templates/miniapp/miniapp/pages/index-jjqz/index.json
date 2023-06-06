@@ -1,0 +1,24 @@
+{
+    "transparentTitle": "none",
+    "pullRefresh": true,
+    "usingComponents": {
+        <% if(model.includes('sparkBanner')) { %>
+        "spark-banner": "plugin://xh-banner/spark-banner",
+        <% } %>
+        <% if(model.includes('taskPlugin')) { %>
+        "task-plug-in": "plugin://xh-banner/task-plug-in",
+        <% } %>
+        <% if(model.includes('visitGift')) { %>
+        "visit-gift": "plugin://xh-banner/visit-gift",
+        <% } %>
+        <% if(model.includes('smartService')) { %>
+        "contact-button": "plugin://xh-banner/contact-button",
+        <% } %>
+        <% if(model.includes('chargePlugin')) { %>
+        "charge-module": "plugin://charge-module/charge-module"<%= model.includes('lightFire') ? ',' : '' %>
+        <% } %>
+        <% if(model.includes('lightFire')) { %>
+        "feeds": "plugin://xlightPlugin/feeds"
+        <% } %>
+    }
+}

@@ -1,41 +1,111 @@
 const { src, dest, parallel, series, watch } = require('gulp');
 const loadPlugins = require('gulp-load-plugins');
-const path = require('path');
 const chalk = require('chalk');
+const fs = require('fs');
+const inquirer = require('inquirer');
+const options = require('./configs/option.js');
+const merge = require('deepmerge');
+const Vinyl = require('vinyl');
 const plugins = loadPlugins();
 
 // gulp-cached 将构建过的文件，生成一个hash，缓存在内存中,只更新修改文件，而不再会一次性重新构建全部监控文件。
-const CONFIG_PATH = './configs';
 const SOURCE_CODE_PATH = './miniapp';
-const OUTPUT_PATH = './dist';
-const ENV = process.env.NODE_ENV || 'prod';
+let OUTPUT_PATH = './dist';
+
+let env;
+let app;
 
 const startTime = Date.now();
 
-const clean = () => {
+function existSync(aPath) {
+    try {
+        const stat = fs.statSync(aPath);
+        return stat.isDirectory() || stat.isFile();
+    } catch (e) {
+        return false;
+    }
+}
+
+function getOption () {
+    const promptList = [
+        {
+            type: 'list',
+            message: '请选择应用：',
+            name: 'app',
+            choices: options.apps
+        },
+        {
+            type: 'list',
+            message: '请选择环境：',
+            name: 'env',
+            choices: options.envs
+        }
+    ];
+    return inquirer.prompt(promptList)
+        .then(answer => {
+            console.log(answer);
+            app = answer.app;
+            env = answer.env;
+            OUTPUT_PATH = `./dist/${app}`;
+            return answer;
+        });
+}
+
+// 环境配置
+function string_src (filename, string) {
+    let src = require('stream').Readable({ objectMode: true });
+    src._read = function () {
+        this.push(new Vinyl({
+            cwd: './',
+            base: './',
+            path: filename,
+            contents: Buffer.from(string, 'utf-8')
+        }));
+        this.push(null);
+    };
+    return src;
+}
+
+const init = () => {
+    return getOption();
+}
+
+const clean = (done) => {
     if (process.env.CLEAR_CACHE) {
         // 手动清理cache缓存
         plugins.cache.clearAll();
     }
-    return src([
-        OUTPUT_PATH + '**/*',
-        '!' + OUTPUT_PATH + '/.tea',
-        '!' + OUTPUT_PATH + '/mini.project.json',
-        '!' + OUTPUT_PATH + '/node_modules',
-    ])
-        .pipe(plugins.plumber())
-        .pipe(plugins.clean());
+    if (existSync(OUTPUT_PATH)) {
+        return src([
+            OUTPUT_PATH + '**/*',
+            '!' + OUTPUT_PATH + '/.tea',
+            '!' + OUTPUT_PATH + '/mini.project.json',
+            '!' + OUTPUT_PATH + '/node_modules',
+        ])
+            .pipe(plugins.plumber())
+            .pipe(plugins.clean());
+    } else {
+        done();
+    }
 };
 // 清空dist
-const env = () => {
-    return src(path.resolve(CONFIG_PATH, `./config.${ENV}.js`,))
-        .pipe(
-            plugins.rename(function (path) {
-                path.basename = 'config';
-            })
-        )
+const envs = () => {
+    const baseConfig = require(`./configs/${app}/base.js`);
+    const envConfig = require(`./configs/${app}/config.${env}.js`);
+    const config = merge(baseConfig, envConfig);
+
+    return string_src('config.json', JSON.stringify(config, null, 2))
+        .pipe(plugins.rename(function (path) {
+            path.extname = '.json';
+        }))
+        .pipe(dest(OUTPUT_PATH))
         .pipe(dest(SOURCE_CODE_PATH));
 };
+
+const index = () => {
+    return src(`${OUTPUT_PATH}/pages/index-${app}/**/*`)
+        .pipe(dest(`${OUTPUT_PATH}/pages/index`));
+}
 
 const html = () => {
     return src([
@@ -145,6 +215,16 @@ const image = () => {
         .pipe(dest(OUTPUT_PATH));
 };
 
+const checkDist = (done) => {
+    try {
+        fs.accessSync(OUTPUT_PATH);
+        done();
+    } catch (err) {
+        fs.mkdirSync(OUTPUT_PATH);
+        done();
+    }
+}
+
 const startWatch = (cb) => {
     cb();
     watch(SOURCE_CODE_PATH + '/**/*.tmpl', html);
@@ -155,7 +235,7 @@ const startWatch = (cb) => {
     watch(SOURCE_CODE_PATH + '/**/*.{json,json5}', json);
     watch(SOURCE_CODE_PATH + '/**/*.{png,jpg,jpeg,gif,ico,svg,webp}', image);
     const endTime = Date.now();
-    console.log(chalk.blue('当前环境是：' + ENV));
+    console.log(chalk.blue('当前环境是：' + env));
     console.log(
         chalk.green('编译用时' + (endTime - startTime) / 1000 + 's')
     );
@@ -164,14 +244,14 @@ const startWatch = (cb) => {
 
 const main = parallel(html, js, json, sjs, style, image);
 
-const dev = series(env, main, startWatch, (cb) => {
+const dev = series(init, clean, envs, checkDist, main, index, startWatch, (cb) => {
     cb();
 });
 
-const build = series(clean, env, main, (cb) => {
+const build = series(init, clean, envs, checkDist, main, index, (cb) => {
     cb();
     const endTime = Date.now();
-    console.log(chalk.blue('当前环境是：' + ENV));
+    console.log(chalk.blue('当前环境是：' + env));
     console.log(
         chalk.green('编译完成，用时' + (endTime - startTime) / 1000 + 's')
     );

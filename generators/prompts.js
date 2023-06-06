@@ -57,6 +57,14 @@ const appPrompts = project => {
       store: true
     },
     {
+      when: () => project === "miniapp",
+      type: "input",
+      name: "apmbA",
+      message: "请输入埋点值apmbA?",
+      default: "ST2021003181689",
+      store: true
+    },
+    {
       type: "input",
       name: "gitSite",
       message: "请输入你创建的git仓库地址?",

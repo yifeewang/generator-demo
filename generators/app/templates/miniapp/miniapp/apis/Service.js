@@ -1,6 +1,6 @@
 import { getInstance, lock, unlock } from './api';
 
-const hostConfig = require("/config.js");
+const hostConfig = require("/config.json");
 
 const Services = {
     lock,

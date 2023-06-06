@@ -4,7 +4,7 @@ import { reportAdvertisingEvents, handleTuiAItem, qs, throttle } from '/utils/to
 const Alipay = require('/utils/Alipay');
 const Tool = require('/utils/tool');
 const app = getApp();
-const hostConfig = require("/config.js");
+const hostConfig = require("/config.json");
 <% if(model.includes('sparkBanner')) { %>
 const XH_BANNER_ZWM = {
     dev: {
@@ -88,7 +88,7 @@ Page({
         const encodeQuery = qs.getFilterQuery(this.data.query);
         this.setData({
             turnUrl: `${this.data.turnUrl}&query=${encodeQuery}`,
-            env: hostConfig.hostConfig,
+            env: hostConfig.env,
             appId: app.globalData.appId
         });
         // 1. 需要支付宝授权 获取用户信息
