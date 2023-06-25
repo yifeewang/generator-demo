@@ -239,7 +239,7 @@ const getBurryInstance = {
             app.globalData.firstChannel = app.globalData.firstChannel || currentChannel || "self";
         }
         return plugin.log({ 
-            app_id:  app.globalData.apmbA,
+            app_id:  app.globalData.gyAppId,
             env: hostConfig.env,
             spm_value: spm || params.spm_value, // 兼容之前的写法
             resource_spm: params.resource_spm || spm || params.spm_value,

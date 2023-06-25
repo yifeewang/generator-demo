@@ -59,8 +59,8 @@ const appPrompts = project => {
     {
       when: () => project === "miniapp",
       type: "input",
-      name: "apmbA",
-      message: "请输入埋点值apmbA?",
+      name: "gyAppId",
+      message: "请输入埋点值gyAppId?",
       default: "ST2021003181689",
       store: true
     },
