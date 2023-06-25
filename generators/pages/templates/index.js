@@ -362,8 +362,8 @@ Page({
     onTaskSaveRef(ref) {
         this.taskSaveRef = ref;
     },
-    onTaskDone({ rewardValue, item }) { // 任务完成后toast或奖励弹窗在这里写
-        // 任务完成
+    onTaskDone({ rewardValue, item }) { // 任务完成后toast或奖励弹窗在这里写，奖励值rewardValue对应item.sumRewardValue的值，item.rewardValue有可能存现金奖品id
+       
     },
     onTaskFail({ msg, item, result }) {
         // 任务未完成
